@@ -1,8 +1,8 @@
 import Styled from 'styled-components';
 import SearchBar from '../SearchBar';
 import Dropdown from '../Dropdown';
-//import { FaRedditAlien } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRedditAlien } from '@fortawesome/free-brands-svg-icons';
 
 const MainContainer = Styled.div`
 display: flex;
@@ -22,28 +22,22 @@ border-color: rgb(80, 80, 80);
 `;
 
 const Home = Styled.a`
-margin-left: 15px;
-margin-right: 20px;
-text-decoration: none;
-color: white;
-font-size: 18px;
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-background-color: rgb(255, 100, 0);
-padding: 3px 9px 1px 9px;
-border-radius: 200px;
+  height: 40px;
+  width: 40px;
+  background-color: rgb(255, 100, 0);
+  border-radius: 100px;
 `;
 
 const Header = ({ handleSearch }) => {
   return (
     <MainContainer>
       <Home href="../index">
-        <FontAwesomeIcon
-          icon={['fas', 'reddit']}
-          color="white"
-          size="24px"
-          position="fixed"
-          style={{ margin: ' 1px -3px 1px -3px' }}
-        />
+        <FontAwesomeIcon icon={faRedditAlien} color="white" size="2x" position="fixed" />
       </Home>
 
       <div>

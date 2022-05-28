@@ -89,7 +89,7 @@ const Dropdown = ({ handleSearch }) => {
   return (
     <MainContainer>
       <DropdownButton onClick={() => expand()}>
-        <FontAwesomeIcon icon={faBars} color="white" size="33px" position="fixed" style={{ margin: ' 1px -3px 1px -3px' }} />
+        <FontAwesomeIcon icon={faBars} color="white" size="2x" position="fixed" style={{ margin: ' 1px -3px 1px -3px' }} />
       </DropdownButton>
 
       <div style={{ backgroundColor: 'inherit' }}>

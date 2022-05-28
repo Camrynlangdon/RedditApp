@@ -114,7 +114,7 @@ const SearchBar = (props) => {
   return (
     <MainContainer>
       <SearchBarContainer>
-        <FontAwesomeIcon icon={faSearch} color="white" size="17px" position="absolute" style={{ margin: ' 1px 1px 1px 10px' }} />
+        <FontAwesomeIcon icon={faSearch} color="white" size="1x" position="absolute" style={{ margin: ' 1px 1px 1px 10px' }} />
         <SearchField
           placeholder="Search"
           type="text"
@@ -130,7 +130,7 @@ const SearchBar = (props) => {
                     <FontAwesomeIcon
                       icon={faSearch}
                       color="white"
-                      size="17px"
+                      size="1x"
                       position="absolute"
                       style={{ margin: ' 1px 8px 1px 0px' }}
                     />

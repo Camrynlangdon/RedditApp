@@ -5,6 +5,7 @@ import FullPost from '../Post';
 import Header from '../Header';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRedditAlien } from '@fortawesome/free-brands-svg-icons';
 
 const Container = styled.div`
   display: flex;
@@ -104,20 +105,17 @@ const Author = styled.p`
 `;
 
 const LoadingLogo = styled.div`
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-bottom: 10px
-  height: 30px;
-  width: 80px;
-  text-decoration: none;
-  color: white;
-  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  height: 120px;
+  width: 120px;
   background-color: rgb(255, 100, 0);
-  padding: 3px 9px 1px 9px;
-  border-radius: 200px;
 
-  animation: rotation 2s infinite infinite;
+  border-radius: 100px;
+
+  /* animation: rotation 2s infinite infinite; */
 `;
 
 const LoadingScreen = styled.div`
@@ -224,9 +222,9 @@ const Feed = () => {
           <Rotate>
             <LoadingLogo href="../index">
               <FontAwesomeIcon
-                icon={['fas', 'reddit']}
+                icon={faRedditAlien}
                 color="white"
-                size="80px"
+                size="5x"
                 position="fixed"
                 style={{ margin: ' 5px 0px 5px 0px', animation: 'rotation 2s infinite linear' }}
               />
