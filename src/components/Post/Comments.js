@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Text, Button } from '@chakra-ui/react';
 
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 90%;
+  max-width: 98%;
 `;
 
 const CommentSection = styled.div`
+  max-width: 100%;
   border: solid 1px black;
   border-radius: 5px;
-  padding: 7px;
+  padding: 3px;
   margin: 1px;
 `;
 
 const CommentDiv = styled.div`
+  max-width: 100%;
   padding-top: 15px;
 `;
 
@@ -28,11 +31,13 @@ const ButtonHideComment = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
   cursor: pointer;
 
+  border: solid 1px black;
+  border-radius: 5px;
+
   :hover {
-    background: ${({ disabled }) => (disabled ? '' : 'rgb(53, 21, 194)')};
+    background: ${({ disabled }) => (disabled ? '' : 'rgb(60, 60, 60)')};
   }
 `;
 
@@ -72,17 +77,10 @@ const Entry = styled.p`
   word-break: break-word;
 `;
 
-const Author = styled.p`
-  color: grey;
-  font-size: 13px;
-  display: inline-block;
-  word-break: break-word;
-`;
-
 const CommentThread = ({ comments, parentComment }) => {
   if (comments === undefined) return null;
   return (
-    <div>
+    <div style={{ maxWidth: '100%' }}>
       {comments.map((comment, key) => {
         if (comment.kind === 'more') return null;
 
@@ -141,18 +139,20 @@ const Comment = ({ comment }) => {
       <CommentSection style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}>
         <Post>
           <UpVote>
-            <p>🔼</p>
-            <p>{comment.data.score}</p>
+            <Text>🔼</Text>
+            <Text>{comment.data.score}</Text>
           </UpVote>
           <Body>
-            <Author>{comment.data.author}</Author>
-            <Entry>{comment.data.body}</Entry>
+            <Text variant="user">{comment.data.author}</Text>
+            <Text>{comment.data.body}</Text>
           </Body>
         </Post>
         {showResults && <CommentThread comments={childComments} parentComment={comment} />}
         <ButtonContainer>
           {showButton && (
-            <ButtonHideComment onClick={() => setShowResults(!showResults)}>{showResults ? 'Hide' : 'More'}</ButtonHideComment>
+            <ButtonHideComment onClick={() => setShowResults(!showResults)}>
+              {!showResults ? <Text>Show</Text> : <Text>Hide</Text>}
+            </ButtonHideComment>
           )}
         </ButtonContainer>
       </CommentSection>

@@ -5,9 +5,9 @@ const config = {
   // useSystemColorMode: false,
 
   colors: {
-    bg: {
-      primary: 'rgba(20, 20, 20)',
-    },
+    primary: 'rgba(20, 20, 20)',
+    secondary: 'rgb(35, 35, 35)',
+
     black: {
       50: '#f5f3ef',
       100: '#e0dcd5',
@@ -73,26 +73,32 @@ const config = {
     Text: {
       baseStyle: {
         color: 'white',
+        wordBreak: 'break-word',
+      },
+      variants: {
+        user: {
+          color: 'grey',
+          fontSize: '14px',
+          wordBreak: 'break-word',
+        },
       },
     },
     Button: {
       baseStyle: {
+        bg: 'black',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'left',
-
-        backgroundColor: 'black',
         padding: '14px 15px 14px 15px',
-
         borderRadius: '0',
-
+        BorderBottom: '3px solid',
+        borderColor: 'rgb(50, 50, 50)',
         cursor: 'pointer',
-
         fontSize: '12px',
         fontWeight: '400',
-
         border: 'none',
         borderTop: 'solid 1px',
+        w: '100%',
       },
     },
   },

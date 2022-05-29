@@ -19,7 +19,7 @@ const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
-  align-items: center;
+
   max-height: 50%;
   overflow-y: auto;
   background-color: rgb(35, 35, 35);
@@ -48,7 +48,7 @@ const PostContainer = styled.div`
 `;
 
 const Post = styled.div`
-  width: 100%;
+  max-width: 100%;
   padding-top: 8px;
   padding-bottom: 20px;
 `;
@@ -57,7 +57,7 @@ const PostData = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  margin-left: 15px;
+  padding-left: 15px;
 `;
 
 const TopNav = styled.div`
@@ -96,13 +96,6 @@ const Image = styled.img`
       max-width: 95%;
     }
   }
-`;
-
-const Author = styled.p`
-  color: grey;
-  font-size: 14px;
-  word-break: break-word;
-  margin-bottom: -7px;
 `;
 
 const LoadingLogo = styled.div`
@@ -191,7 +184,7 @@ const Feed = () => {
     return (
       <Post>
         <PostData>
-          <Author>Post made by u/{post?.author}</Author>
+          <Text variant="user">Post made by u/{post?.author}</Text>
           <Text>{post.title}</Text>
         </PostData>
         <ImageContainer>{post.image.slice(-3) === 'jpg' && <Image src={post.image} alt={post.title} />}</ImageContainer>
@@ -219,7 +212,7 @@ const Feed = () => {
   if (!currentSelectedPost) {
     if (!posts || !posts.length)
       return (
-        <Box bg="bg.primary" height="100vh">
+        <Box bg="primary" height="100vh">
           <LoadingScreen>
             <Rotate>
               <LoadingLogo href="../index">
@@ -237,7 +230,7 @@ const Feed = () => {
         </Box>
       );
     return (
-      <Box bg="bg.primary" paddingTop="30px">
+      <Box bg="primary" paddingTop="30px">
         <Container>
           <Header handleSearch={(value) => setCurrentSubreddit(value)} />
           <TopNav>

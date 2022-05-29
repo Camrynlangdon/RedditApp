@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { Box, Text, Button } from '@chakra-ui/react';
+import { Divider, Text, Button, Box } from '@chakra-ui/react';
 
 const MainContainer = styled.div`
   display: flex;
@@ -62,7 +62,7 @@ const SubRedditOption = styled.button`
   border-color: rgb(50, 50, 50);
 
   :hover {
-    background-color: rgb(50, 50, 50);
+    background-color: rgb(40, 40, 40);
   }
 `;
 
@@ -92,16 +92,16 @@ const Dropdown = ({ handleSearch }) => {
         <FontAwesomeIcon icon={faBars} color="white" size="2x" position="fixed" style={{ margin: ' 1px -3px 1px -3px' }} />
       </DropdownButton>
 
-      <div style={{ backgroundColor: 'inherit' }}>
+      <div>
         {(() => {
           if (expanded) {
             return (
               <DropdownContainer onBlur={close}>
                 {options.map((option, i) => {
                   return (
-                    <Button key={i} value={option} onClick={() => select(option)}>
-                      <Text>r/{option}</Text>
-                    </Button>
+                    <SubRedditOption backgroundColor="secondary" key={i} value={option} onClick={() => select(option)}>
+                      <Text fontSize="13">r/{option}</Text>
+                    </SubRedditOption>
                   );
                 })}
               </DropdownContainer>

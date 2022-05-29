@@ -1,17 +1,20 @@
 import styled from 'styled-components';
 import Comments from './Comments';
+import { Text, Box } from '@chakra-ui/react';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
-  padding: 32px;
 `;
 const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
   padding-top: 25px;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 20px;
 
    {
     /*min-height: 400px;*/
@@ -31,7 +34,7 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img`
-  border-radius: 15px;
+  border-radius: 3px;
   border-color: white;
   border: solid;
   border-width: 1px;
@@ -53,6 +56,8 @@ const CommentContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  max-width: 800px;
 `;
 
 const ExitButton = styled.button`
@@ -75,8 +80,6 @@ const ExitButton = styled.button`
   }
 `;
 
-const MainContainer = styled.div``;
-
 const PostBanner = styled.div`
   position: fixed;
   top: 0px;
@@ -92,25 +95,36 @@ const RedditBrowser = ({ post, hideWindow }) => {
   if (!post) return '...loading';
 
   return (
-    <MainContainer>
+    <Box bg="primary" w="100%" display="flex" flexDirection="column" alignItems="center" justifyContent="center" paddingTop="85">
       <PostBanner>
         <ExitButton onClick={(event) => hideWindow(event)}>X Close</ExitButton>
       </PostBanner>
 
-      <Container>
-        <PostContainer>
-          <span>{post?.author}</span>
-          <a href={post?.url}>Link to reddit</a>
-          <h1>{post.title}</h1>
+      <Box
+        bg="secondary"
+        maxWidth="700px"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        borderRadius="4px"
+        padding="1px"
+      >
+        <Container>
+          <PostContainer>
+            <Text variant="user">{post?.author}</Text>
+            <Text>{post.title}</Text>
+            <Text>{post.body}</Text>
+            <a href={post?.url}>Link to reddit</a>
+          </PostContainer>
           <ImageContainer>{post?.image?.slice(-3) === 'jpg' && <Image src={post.image} alt={post.title} />}</ImageContainer>
-          <p>{post.text}</p>
-        </PostContainer>
-      </Container>
+        </Container>
 
-      <CommentContainer>
-        <Comments post={post} />
-      </CommentContainer>
-    </MainContainer>
+        <CommentContainer>
+          <Comments post={post} />
+        </CommentContainer>
+      </Box>
+    </Box>
   );
 };
 
