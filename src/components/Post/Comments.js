@@ -65,9 +65,10 @@ const UpVote = styled.div`
 const Body = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: start;
-  padding-bottom: 15px;
-  padding-top: -4px;
+  padding-bottom: 5px;
+  padding-top: 1px;
 `;
 
 const Entry = styled.p`
