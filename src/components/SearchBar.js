@@ -59,7 +59,7 @@ const SearchBarContainer = Styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   width: 200px;
   height: 100%;
   background-color: rgb(45, 45, 45);

@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { Box, Text, Button } from '@chakra-ui/react';
 
 const MainContainer = styled.div`
   display: flex;
@@ -19,7 +20,6 @@ const DropdownContainer = styled.div`
   flex-direction: column;
 
   border: 1px solid;
-  border-color: rgb(80, 80, 80);
   border-radius: 3px;
 `;
 
@@ -99,9 +99,9 @@ const Dropdown = ({ handleSearch }) => {
               <DropdownContainer onBlur={close}>
                 {options.map((option, i) => {
                   return (
-                    <SubRedditOption key={i} value={option} onClick={() => select(option)}>
-                      r/{option}
-                    </SubRedditOption>
+                    <Button key={i} value={option} onClick={() => select(option)}>
+                      <Text>r/{option}</Text>
+                    </Button>
                   );
                 })}
               </DropdownContainer>

@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { getData } from '../../Utils';
 import FullPost from '../Post';
 import Header from '../Header';
+import { Box, FormLabel, Input, Text, Button } from '@chakra-ui/react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons';
@@ -119,13 +120,13 @@ const LoadingLogo = styled.div`
 `;
 
 const LoadingScreen = styled.div`
-  height: 500px;
+  height: 100%;
   width: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
 `;
 
 const LoadingText = styled.p`
@@ -191,7 +192,7 @@ const Feed = () => {
       <Post>
         <PostData>
           <Author>Post made by u/{post?.author}</Author>
-          <p>{post.title}</p>
+          <Text>{post.title}</Text>
         </PostData>
         <ImageContainer>{post.image.slice(-3) === 'jpg' && <Image src={post.image} alt={post.title} />}</ImageContainer>
       </Post>
@@ -218,44 +219,48 @@ const Feed = () => {
   if (!currentSelectedPost) {
     if (!posts || !posts.length)
       return (
-        <LoadingScreen>
-          <Rotate>
-            <LoadingLogo href="../index">
-              <FontAwesomeIcon
-                icon={faRedditAlien}
-                color="white"
-                size="5x"
-                position="fixed"
-                style={{ margin: ' 5px 0px 5px 0px', animation: 'rotation 2s infinite linear' }}
-              />
-            </LoadingLogo>
-          </Rotate>
-          <LoadingText>...loading</LoadingText>
-        </LoadingScreen>
+        <Box bg="bg.primary" height="100vh">
+          <LoadingScreen>
+            <Rotate>
+              <LoadingLogo href="../index">
+                <FontAwesomeIcon
+                  icon={faRedditAlien}
+                  color="white"
+                  size="5x"
+                  position="fixed"
+                  style={{ margin: ' 5px 0px 5px 0px', animation: 'rotation 2s infinite linear' }}
+                />
+              </LoadingLogo>
+            </Rotate>
+            <LoadingText>...loading</LoadingText>
+          </LoadingScreen>
+        </Box>
       );
     return (
-      <Container>
-        <Header handleSearch={(value) => setCurrentSubreddit(value)} />
-        <TopNav>
-          <SearchError>{searchError}</SearchError>
-        </TopNav>
+      <Box bg="bg.primary" paddingTop="30px">
+        <Container>
+          <Header handleSearch={(value) => setCurrentSubreddit(value)} />
+          <TopNav>
+            <SearchError>{searchError}</SearchError>
+          </TopNav>
 
-        {(() => {
-          if (SavedFeed) {
-            return (
-              <div>
-                <SavedFeed />
-                {key && window.scrollTo(0, key)}
-              </div>
-            );
-          } else {
-            setSavedFeed(() => {
-              return FeedMap;
-            });
-            //console.log({ currentSelectedPost, key }, { CurrentFeed });
-          }
-        })()}
-      </Container>
+          {(() => {
+            if (SavedFeed) {
+              return (
+                <div>
+                  <SavedFeed />
+                  {key && window.scrollTo(0, key)}
+                </div>
+              );
+            } else {
+              setSavedFeed(() => {
+                return FeedMap;
+              });
+              //console.log({ currentSelectedPost, key }, { CurrentFeed });
+            }
+          })()}
+        </Container>
+      </Box>
     );
   } else if (currentSelectedPost) {
     return (
