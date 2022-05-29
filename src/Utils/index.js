@@ -12,13 +12,14 @@ const getData = () => {
         responseJson.data.children.map(async (child) => {
           const postData = child.data;
           const url = `https://www.reddit.com/${postData.permalink}`;
-
+          //console.log({ postData });
           return {
             title: postData.title,
-            text: postData.selftext,
+            selftext: postData.selftext,
             author: postData.author,
             url: url,
             image: postData.url,
+            score: postData.score,
             comments: await getPostComments(url),
           };
         })

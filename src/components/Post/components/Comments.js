@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Text, Button } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
+import Vote from './Vote';
 
 const MainContainer = styled.div`
   display: flex;
@@ -14,13 +15,13 @@ const CommentSection = styled.div`
   max-width: 100%;
   border: solid 1px black;
   border-radius: 5px;
-  padding: 3px;
-  margin: 1px;
+  padding: 3px 0px 3px 1px;
+  margin: 3px -1px 3px 6px;
 `;
 
 const CommentDiv = styled.div`
   max-width: 100%;
-  padding-top: 15px;
+  padding-bottom: 5px;
 `;
 
 const ButtonHideComment = styled.button`
@@ -48,18 +49,7 @@ const ButtonContainer = styled.div`
 
 const Post = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
-`;
-
-const UpVote = styled.div`
-  display: column;
-  margin-top: -5px;
-  text-align: center;
-  align-items: center;
-  justify-content: start;
-  margin-right: 10px;
+  flex-direction: column;
 `;
 
 const Body = styled.div`
@@ -67,15 +57,18 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  padding-bottom: 5px;
-  padding-top: 1px;
+  padding 0px 15px 15px 15px;
 `;
 
-const Entry = styled.p`
-  margin-bottom: -5px;
-  margin-top: -5px;
-  display: inline-block;
-  word-break: break-word;
+const BottomBannerContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  margin-top: 6px;
+  padding-right: 10px;
+  border-top: 1px solid;
+  border-color: rgba(40, 40, 40);
 `;
 
 const CommentThread = ({ comments, parentComment }) => {
@@ -117,6 +110,20 @@ const CommentThread = ({ comments, parentComment }) => {
   );
 };
 
+const BottomBanner = ({ comment, showButton, showResults, setShowResults }) => {
+  return (
+    <BottomBannerContainer>
+      <ButtonContainer>
+        {showButton && (
+          <ButtonHideComment onClick={() => setShowResults(!showResults)}>
+            {!showResults ? <Text>Show</Text> : <Text>Hide</Text>}
+          </ButtonHideComment>
+        )}
+      </ButtonContainer>
+      <Vote commentData={comment.data} />
+    </BottomBannerContainer>
+  );
+};
 const Comment = ({ comment }) => {
   const [showResults, setShowResults] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -127,7 +134,7 @@ const Comment = ({ comment }) => {
     childComments !== undefined &&
     !showButton &&
     childComments.kind !== 'more' &&
-    typeof childComments !== undefined
+    typeof childComments !== 'undefined'
   ) {
     if (childComments[0].kind !== 'more') setShowButton(true);
   }
@@ -139,23 +146,15 @@ const Comment = ({ comment }) => {
     <CommentDiv>
       <CommentSection style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}>
         <Post>
-          <UpVote>
-            <Text>🔼</Text>
-            <Text>{comment.data.score}</Text>
-          </UpVote>
           <Body>
-            <Text variant="user">{comment.data.author}</Text>
-            <Text>{comment.data.body}</Text>
+            <Text variant="user" fontSize="12px">
+              {comment.data.author}
+            </Text>
+            <Text fontSize="13px">{comment.data.body}</Text>
           </Body>
+          <BottomBanner comment={comment} showButton={showButton} showResults={showResults} setShowResults={setShowResults} />
         </Post>
         {showResults && <CommentThread comments={childComments} parentComment={comment} />}
-        <ButtonContainer>
-          {showButton && (
-            <ButtonHideComment onClick={() => setShowResults(!showResults)}>
-              {!showResults ? <Text>Show</Text> : <Text>Hide</Text>}
-            </ButtonHideComment>
-          )}
-        </ButtonContainer>
       </CommentSection>
     </CommentDiv>
   );

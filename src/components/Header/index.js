@@ -3,6 +3,7 @@ import SearchBar from '../SearchBar';
 import Dropdown from '../Dropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 const MainContainer = Styled.div`
 display: flex;
@@ -34,6 +35,18 @@ const Home = Styled.a`
 `;
 
 const Header = ({ handleSearch }) => {
+  const options = [
+    'pics',
+    'stories',
+    'aww',
+    'News',
+    'WorldNews',
+    'California',
+    'Bayarea',
+    'Jokes',
+    'Frontend',
+    'ProgrammerHumor',
+  ];
   return (
     <MainContainer>
       <Home href="../index">
@@ -43,7 +56,7 @@ const Header = ({ handleSearch }) => {
       <div>
         <SearchBar onClick={(value) => handleSearch(value)} />
       </div>
-      <Dropdown handleSearch={(value) => handleSearch(value)} />
+      <Dropdown handleSearch={(value) => handleSearch(value)} options={options} icon={faBars} iconSize={'2x'} />
     </MainContainer>
   );
 };

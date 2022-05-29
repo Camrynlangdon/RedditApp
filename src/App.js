@@ -1,19 +1,21 @@
 import './App.css';
 import Styled from 'styled-components';
-
+import { Box } from '@chakra-ui/react';
 import Feed from './components/Feed';
 
 function App() {
   const MainDiv = Styled.div`
     
-    height: 100%;
+    height: 100vh;
 
   `;
 
   return (
-    <MainDiv>
-      <Feed />
-    </MainDiv>
+    <Box bg="primary">
+      <MainDiv>
+        <Feed />
+      </MainDiv>
+    </Box>
   );
 }
 

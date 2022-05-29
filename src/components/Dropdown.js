@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+
 import { Divider, Text, Button, Box } from '@chakra-ui/react';
 
 const MainContainer = styled.div`
@@ -66,8 +66,7 @@ const SubRedditOption = styled.button`
   }
 `;
 
-const options = ['pics', 'aww', 'News', 'WorldNews', 'California', 'Bayarea', 'Jokes', 'Frontend', 'ProgrammerHumor'];
-const Dropdown = ({ handleSearch }) => {
+const Dropdown = ({ handleSearch, options, icon, iconSize }) => {
   const [expanded, setExpanded] = useState(false);
 
   const expand = () => {
@@ -89,7 +88,7 @@ const Dropdown = ({ handleSearch }) => {
   return (
     <MainContainer>
       <DropdownButton onClick={() => expand()}>
-        <FontAwesomeIcon icon={faBars} color="white" size="2x" position="fixed" style={{ margin: ' 1px -3px 1px -3px' }} />
+        <FontAwesomeIcon icon={icon} color="white" size={iconSize} position="fixed" style={{ margin: ' 1px -3px 1px -3px' }} />
       </DropdownButton>
 
       <div>

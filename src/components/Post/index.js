@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import Comments from './Comments';
+import Comments from './components/Comments';
 import { Text, Box } from '@chakra-ui/react';
+import BottomBanner from '../Feed/components/BottomBanner';
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ const PostContainer = styled.div`
    {
     /*min-height: 400px;*/
   }
-  max-height: 50%;
+
   overflow-y: auto;
 
   a {
@@ -114,10 +115,13 @@ const RedditBrowser = ({ post, hideWindow }) => {
           <PostContainer>
             <Text variant="user">{post?.author}</Text>
             <Text>{post.title}</Text>
-            <Text>{post.body}</Text>
+            <Text fontSize="12px" paddingTop="15px">
+              {post.selftext}
+            </Text>
             <a href={post?.url}>Link to reddit</a>
           </PostContainer>
           <ImageContainer>{post?.image?.slice(-3) === 'jpg' && <Image src={post.image} alt={post.title} />}</ImageContainer>
+          <BottomBanner post={post} />
         </Container>
 
         <CommentContainer>

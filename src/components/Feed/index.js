@@ -3,7 +3,8 @@ import styled, { keyframes } from 'styled-components';
 import { getData } from '../../Utils';
 import FullPost from '../Post';
 import Header from '../Header';
-import { Box, FormLabel, Input, Text, Button } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
+import BottomBanner from './components/BottomBanner';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons';
@@ -20,7 +21,6 @@ const PostContainer = styled.div`
   flex-direction: column;
   justify-items: center;
 
-  max-height: 50%;
   overflow-y: auto;
   background-color: rgb(35, 35, 35);
   border: 1px solid;
@@ -50,7 +50,6 @@ const PostContainer = styled.div`
 const Post = styled.div`
   max-width: 100%;
   padding-top: 8px;
-  padding-bottom: 20px;
 `;
 
 const PostData = styled.div`
@@ -197,11 +196,11 @@ const Feed = () => {
       <FeedContainer>
         {posts.map((post, key) => {
           return (
-            <PostContainer
-              onClick={() => setCurrentSelectedPost({ currentSelectedPost: post, key: window.pageYOffset })}
-              key={key}
-            >
-              <MainFeed post={post} />
+            <PostContainer key={key}>
+              <div onClick={() => setCurrentSelectedPost({ currentSelectedPost: post, key: window.pageYOffset })}>
+                <MainFeed post={post} />
+              </div>
+              <BottomBanner post={post} />
             </PostContainer>
           );
         })}
@@ -236,7 +235,6 @@ const Feed = () => {
           <TopNav>
             <SearchError>{searchError}</SearchError>
           </TopNav>
-
           {(() => {
             if (SavedFeed) {
               return (
