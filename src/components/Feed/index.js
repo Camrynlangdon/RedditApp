@@ -60,6 +60,7 @@ const PostData = styled.div`
 `;
 
 const TopNav = styled.div`
+  padding-top: 18px;
   display: flex;
   flex-direction: column;
   margin-bottom: 6px;

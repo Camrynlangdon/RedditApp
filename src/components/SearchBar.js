@@ -12,7 +12,7 @@ const MainContainer = Styled.div`
 
 const SearchField = Styled.input`
   background: none;
-  color: inherit;
+  color: white;
 
   width: 70%;
   height: 80%;
@@ -44,7 +44,7 @@ const Button = Styled.button`
 
   font-size: 12px;
   font-weight: 400;
-  color: inherit;
+  color: white;
 
   border: none;
   border-top: solid 1px;

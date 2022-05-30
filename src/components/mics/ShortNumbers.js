@@ -13,7 +13,7 @@ const ShortNumber = ({ number }) => {
   };
 
   return (
-    <Text display="flex" justifyContent="center" alignItems="center" fontSize="11px" padding=" 0 1px 0 1px">
+    <Text display="flex" justifyContent="center" alignItems="center" fontSize="11px" padding=" 0 1px 0 1px" w="20px">
       {shortenNum(number)}
     </Text>
   );
