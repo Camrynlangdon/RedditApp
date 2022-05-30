@@ -8,7 +8,7 @@ const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 98%;
+  width: 98%;
 `;
 
 const CommentSection = styled.div`

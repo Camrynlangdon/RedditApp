@@ -5,9 +5,8 @@ import FullPost from '../Post';
 import Header from '../Header';
 import { Box, Text } from '@chakra-ui/react';
 import BottomBanner from './components/BottomBanner';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRedditAlien } from '@fortawesome/free-brands-svg-icons';
+import SearchType from './components/SearchType';
+import LoadingScreen from '../mics/LoadingScreen';
 
 const Container = styled.div`
   display: flex;
@@ -69,7 +68,7 @@ const TopNav = styled.div`
 `;
 
 const FeedContainer = styled.div`
-  padding-top: 50px;
+  padding-top: 8px;
 `;
 
 const SearchError = styled.p`
@@ -100,65 +99,20 @@ const Image = styled.img`
   }
 `;
 
-const LoadingLogo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 120px;
-  width: 120px;
-  background-color: rgb(255, 100, 0);
-
-  border-radius: 100px;
-
-  /* animation: rotation 2s infinite infinite; */
-`;
-
-const LoadingScreen = styled.div`
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const LoadingText = styled.p`
-  padding-top: 5px;
-  font-size: 25px;
-
-  animation: spin 2s infinite infinite;
-`;
-
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-const Rotate = styled.div`
-  display: inline-block;
-  animation: ${rotate} 2s linear infinite;
-  padding: 5px;
-  font-size: 1.2rem;
-`;
-
 const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [currentSubreddit, setCurrentSubreddit] = useState('pics');
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
   const [SavedFeed, setSavedFeed] = useState(null);
-  const { getFeed } = getData();
+  const { getSubRedditFeed, searchTypes } = getData();
+  const [currentSearchType, setCurrentSearchType] = useState(searchTypes.hot);
 
   useEffect(() => {
     const fetch = async () => {
       try {
         const post = await (() => {
-          return getFeed(currentSubreddit);
+          return getSubRedditFeed(currentSubreddit, currentSearchType);
         })();
         setPosts(post.data);
         setSavedFeed(() => {
@@ -172,7 +126,7 @@ const Feed = () => {
       }
     };
     fetch();
-  }, [currentSubreddit]);
+  }, [currentSubreddit, currentSearchType]);
 
   const PostBody = ({ post, hideWindow }) => {
     return (
@@ -212,25 +166,7 @@ const Feed = () => {
   };
 
   if (!currentSelectedPost) {
-    if (!posts || !posts.length)
-      return (
-        <Box bg="primary" height="100vh">
-          <LoadingScreen>
-            <Rotate>
-              <LoadingLogo href="../index">
-                <FontAwesomeIcon
-                  icon={faRedditAlien}
-                  color="white"
-                  size="5x"
-                  position="fixed"
-                  style={{ margin: ' 5px 0px 5px 0px', animation: 'rotation 2s infinite linear' }}
-                />
-              </LoadingLogo>
-            </Rotate>
-            <LoadingText>...loading</LoadingText>
-          </LoadingScreen>
-        </Box>
-      );
+    if (!posts || !posts.length) return <LoadingScreen />;
     return (
       <Box bg="primary" paddingTop="30px">
         <Container>
@@ -238,6 +174,7 @@ const Feed = () => {
           <TopNav>
             <SearchError>{searchError}</SearchError>
           </TopNav>
+          <SearchType currentSearchType={currentSearchType} setCurrentSearchType={(type) => setCurrentSearchType(type)} />
           {(() => {
             if (SavedFeed) {
               return (

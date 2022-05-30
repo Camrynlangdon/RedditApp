@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-
 const getData = () => {
-  const getFeed = async (currentSubreddit) => {
+  const getSubRedditFeed = async (currentSubreddit, searchType) => {
     try {
-      const response = await fetch('https://www.reddit.com/r/' + currentSubreddit + '/hot.json');
+      const response = await fetch('https://www.reddit.com/r/' + currentSubreddit + `/${searchType}.json`);
       if (!response.ok) return;
       const responseJson = await response.json();
       if (responseJson.error === 404 || responseJson.message === 'Not Found') return;
@@ -50,8 +48,18 @@ const getData = () => {
     }
   };
 
+  const searchTypes = {
+    top: 'top',
+    best: 'best',
+    new: 'new',
+    hot: 'hot',
+    controversial: 'controversial',
+    rising: 'rising',
+  };
+
   return {
-    getFeed,
+    getSubRedditFeed,
+    searchTypes,
   };
 };
 

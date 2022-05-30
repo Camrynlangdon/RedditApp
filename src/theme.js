@@ -101,6 +101,12 @@ const config = {
         w: '100%',
       },
     },
+    Select: {
+      baseStyle: {
+        color: 'white',
+        bg: 'red',
+      },
+    },
   },
 };
 
