@@ -118,7 +118,6 @@ const RedditBrowser = ({ post, hideWindow }) => {
             <Text fontSize="12px" paddingTop="15px">
               {post.selftext}
             </Text>
-            <a href={post?.url}>Link to reddit</a>
           </PostContainer>
           <ImageContainer>{post?.image?.slice(-3) === 'jpg' && <Image src={post.image} alt={post.title} />}</ImageContainer>
           <BottomBanner post={post} />

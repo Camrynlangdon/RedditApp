@@ -6,7 +6,8 @@ const ShortNumber = ({ number, fontSize = '11px' }) => {
       return number;
     } else if (number >= 1000 && number < 1000000) {
       const newNum = String(number).slice(0, -3);
-      return newNum + 'k';
+      const pointNum = String(number).slice(-3, -2);
+      return newNum + '.' + pointNum + 'k';
     }
   };
 

@@ -38,7 +38,7 @@ const PostContainer = styled.div`
   }
   @media only screen and (min-width: 615px) {
      {
-      width: 800px;
+      max-width: 800px;
       border-radius: 4px;
     }
   }

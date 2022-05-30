@@ -23,6 +23,14 @@ const VoteDiv = styled.div`
 
 const UpVoteDownVote = ({ post }) => {
   const [upVoted, setUpVoted] = useState(null);
+
+  const NumOfVotes = () => {
+    //temp until user can log in
+    if (upVoted === true) return post.score + 1;
+    else if (upVoted === false) return post.score - 1;
+    else if (upVoted === null) return post.score;
+  };
+
   const handleVoteColor = (buttonType) => {
     if (upVoted == null) return 'primary';
     if (upVoted === true) {
@@ -52,7 +60,7 @@ const UpVoteDownVote = ({ post }) => {
         <ArrowUpIcon w={6} h={6} margin="-3px" padding="-3px" color={handleVoteColor('upVote')} />
       </VoteButton>
 
-      <ShortNumbers number={post.score} />
+      <ShortNumbers number={NumOfVotes()} />
 
       <VoteButton onClick={() => handleVote('downVote')}>
         <ArrowDownIcon w={6} h={6} margin="-3px" padding="-3px" color={handleVoteColor('downVote')} />
