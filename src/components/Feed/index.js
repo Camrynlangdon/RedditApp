@@ -92,7 +92,7 @@ const SubredditButton = styled.button`
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const [currentSubreddit, setCurrentSubreddit] = useState('dubstep');
+  const [currentSubreddit, setCurrentSubreddit] = useState();
   const [prevSubreddit, setPrevSubreddit] = useState(null);
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
