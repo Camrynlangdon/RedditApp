@@ -54,7 +54,7 @@ const Media = ({ post }) => {
       <div>
         <video width="100%" controls src={post?.media?.reddit_video?.fallback_url} />
         {/* audio format https://v.redd.it/8zlpt3sr1l291/DASH_audio.mp4 */}
-        <Audio height="25" controls src="https://v.redd.it/8zlpt3sr1l291/DASH_audio.mp4"></Audio>
+        {/* <Audio height="25" controls src="https://v.redd.it/8zlpt3sr1l291/DASH_audio.mp4"></Audio> */}
       </div>
     );
   } else if (post.image.slice(-4) === 'gifv') {
