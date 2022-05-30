@@ -3,6 +3,8 @@ import { Text } from '@chakra-ui/react';
 import { ArrowUpIcon, ArrowDownIcon } from '@chakra-ui/icons';
 import Dropdown from '../../Dropdown';
 import { faDiagramProject } from '@fortawesome/free-solid-svg-icons';
+import ShortNumbers from '../../mics/ShortNumbers';
+
 const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -38,8 +40,6 @@ const ShareDiv = styled.div`
   background-color: none;
 `;
 
-const ShareButton = styled.a``;
-
 const LowerButtons = ({ post }) => {
   const dropdownOptions = [post.url];
   return (
@@ -58,9 +58,7 @@ const LowerButtons = ({ post }) => {
           <ArrowUpIcon w={6} h={6} margin="-3px" padding="-3px" color="primary" />
         </Button>
 
-        <Text display="flex" justifyContent="center" alignItems="center" fontSize="11px" padding=" 0 1px 0 1px">
-          {post.score}
-        </Text>
+        <ShortNumbers number={post.score} />
 
         <Button onClick={() => console.log('downVote')}>
           <ArrowDownIcon w={6} h={6} margin="-3px" padding="-3px" color="primary" />

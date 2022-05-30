@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Text, Box } from '@chakra-ui/react';
 import { ArrowUpIcon, ArrowDownIcon } from '@chakra-ui/icons';
+import ShortNumbers from '../../mics/ShortNumbers';
 
 const MainContainer = styled.div`
   display: flex;
@@ -41,9 +42,7 @@ const LowerButtons = ({ commentData }) => {
           <ArrowUpIcon w={6} h={6} margin="-3px" padding="-3px" color="primary" />
         </Button>
 
-        <Text display="flex" justifyContent="center" alignItems="center" fontSize="11px" padding=" 0 1px 0 1px">
-          {commentData.score}
-        </Text>
+        <ShortNumbers number={commentData.score} />
 
         <Button onClick={() => console.log('downVote')}>
           <ArrowDownIcon w={6} h={6} margin="-3px" padding="-3px" color="primary" />
