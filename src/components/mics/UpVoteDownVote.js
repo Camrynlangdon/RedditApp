@@ -8,7 +8,7 @@ const VoteButton = styled.div`
   justify-content: center;
   align-items: center;
   height: 27px;
-  width: 24px;
+  width: 33px;
   cursor: pointer;
 `;
 

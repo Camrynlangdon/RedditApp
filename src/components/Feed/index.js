@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { getData } from '../../Utils';
 import FullPost from '../Post';
 import Header from '../Header';
 import { Box, Text } from '@chakra-ui/react';
 import BottomBanner from './components/BottomBanner';
-import SearchType from './components/SearchType';
+import SortTypeDropdown from './components/SortTypeDropdown';
 import LoadingScreen from '../mics/LoadingScreen';
+import Media from '../mics/Media';
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +29,7 @@ const PostContainer = styled.div`
   margin-bottom: 15px;
   color: inherit;
   font: inherit;
-  cursor: pointer;
+
   outline: inherit;
   @media only screen and (max-width: 614px) {
      {
@@ -47,17 +48,16 @@ const PostContainer = styled.div`
 `;
 
 const Post = styled.div`
-  max-width: 100%;
+  width: 100%;
   padding-top: 8px;
 `;
 
 const PostData = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: start;
   padding-left: 15px;
   padding-right: 15px;
-  padding-bottom: 15px;
 `;
 
 const TopNav = styled.div`
@@ -77,36 +77,29 @@ const SearchError = styled.p`
   margin-left: 5px;
 `;
 
-const ImageContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const EmptyBox = styled.div`
+  min-height: 100%;
+  width: 100%;
+  cursor: pointer;
 `;
-
-const Image = styled.img`
-  border-radius: 2px;
-
-  @media only screen and (max-width: 614px) {
-     {
-      width: 100%;
-    }
-  }
-  @media only screen and (min-width: 615px) {
-     {
-      max-height: 900px;
-      max-width: 95%;
-    }
+const SubredditButton = styled.button`
+  text-shadow: 3px 3px 3px black;
+  :hover {
+    margin-left: -2px;
+    font-weight: bold;
   }
 `;
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const [currentSubreddit, setCurrentSubreddit] = useState('pics');
+  const [currentSubreddit, setCurrentSubreddit] = useState('dubstep');
+  const [prevSubreddit, setPrevSubreddit] = useState(null);
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
   const [SavedFeed, setSavedFeed] = useState(null);
-  const { getSubRedditFeed, searchTypes } = getData();
-  const [currentSearchType, setCurrentSearchType] = useState(searchTypes.hot);
+  const { getSubRedditFeed, SortType } = getData();
+  const [currentSearchType, setCurrentSearchType] = useState(SortType.top);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
@@ -119,7 +112,9 @@ const Feed = () => {
           return null;
         });
         setSearchError('');
+        setIsLoading(false);
       } catch (error) {
+        setCurrentSubreddit(prevSubreddit);
         console.log('Could not fetch subreddit');
         setSearchError('no results found!');
         return null;
@@ -127,6 +122,17 @@ const Feed = () => {
     };
     fetch();
   }, [currentSubreddit, currentSearchType]);
+
+  const ChangeSubreddit = (subreddit) => {
+    setIsLoading(true);
+    setPrevSubreddit(currentSubreddit);
+    setCurrentSubreddit(subreddit);
+  };
+
+  const changeCurrentSortType = (type) => {
+    setIsLoading(true);
+    setCurrentSearchType(type);
+  };
 
   const PostBody = ({ post, hideWindow }) => {
     return (
@@ -136,14 +142,36 @@ const Feed = () => {
     );
   };
 
+  const setCurrentSelectedPostAndKey = (post) => {
+    setCurrentSelectedPost({ currentSelectedPost: post, key: window.pageYOffset });
+  };
+
   const MainFeed = ({ post }) => {
     return (
       <Post>
         <PostData>
-          <Text variant="user">Post made by u/{post?.author}</Text>
-          <Text>{post.title}</Text>
+          <Box display="flex-start" alignItems="start" flexDirection="column">
+            {!currentSubreddit && (
+              <SubredditButton onClick={() => ChangeSubreddit(post.subreddit)}>
+                <Text wordBreak="none" fontSize="10px">
+                  r/{post.subreddit}
+                </Text>
+              </SubredditButton>
+            )}
+
+            <Text variant="user" wordBreak="none">
+              u/{post?.author}
+            </Text>
+          </Box>
+          <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}>test</EmptyBox>
         </PostData>
-        <ImageContainer>{post.image.slice(-3) === 'jpg' && <Image src={post.image} alt={post.title} />}</ImageContainer>
+
+        <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}>
+          <Text w="100%" padding="0px 15px 5px 15px">
+            {post.title}
+          </Text>
+          <Media post={post} />
+        </EmptyBox>
       </Post>
     );
   };
@@ -154,10 +182,10 @@ const Feed = () => {
         {posts.map((post, key) => {
           return (
             <PostContainer key={key}>
-              <div onClick={() => setCurrentSelectedPost({ currentSelectedPost: post, key: window.pageYOffset })}>
+              <div>
                 <MainFeed post={post} />
               </div>
-              <BottomBanner post={post} />
+              <BottomBanner post={post} setCurrentSelectedPostAndKey={(value) => setCurrentSelectedPostAndKey(value)} />
             </PostContainer>
           );
         })}
@@ -166,33 +194,36 @@ const Feed = () => {
   };
 
   if (!currentSelectedPost) {
-    if (!posts || !posts.length) return <LoadingScreen />;
-    return (
-      <Box bg="primary" paddingTop="30px">
-        <Container>
-          <Header handleSearch={(value) => setCurrentSubreddit(value)} />
-          <TopNav>
-            <SearchError>{searchError}</SearchError>
-          </TopNav>
-          <SearchType currentSearchType={currentSearchType} setCurrentSearchType={(type) => setCurrentSearchType(type)} />
-          {(() => {
-            if (SavedFeed) {
-              return (
-                <div>
-                  <SavedFeed />
-                  {key && window.scrollTo(0, key)}
-                </div>
-              );
-            } else {
-              setSavedFeed(() => {
-                return FeedMap;
-              });
-              //console.log({ currentSelectedPost, key }, { CurrentFeed });
-            }
-          })()}
-        </Container>
-      </Box>
-    );
+    if (!posts || !posts.length || isLoading) {
+      return <LoadingScreen />;
+    } else {
+      return (
+        <Box bg="primary" paddingTop="30px">
+          <Container>
+            <Header handleSearch={(value) => ChangeSubreddit(value)} />
+            <TopNav>
+              <SearchError>{searchError}</SearchError>
+            </TopNav>
+            <SortTypeDropdown currentSearchType={currentSearchType} setCurrentSortType={(type) => changeCurrentSortType(type)} />
+            {(() => {
+              if (SavedFeed) {
+                return (
+                  <div>
+                    <SavedFeed />
+                    {key && window.scrollTo(0, key)}
+                  </div>
+                );
+              } else {
+                setSavedFeed(() => {
+                  return FeedMap;
+                });
+                //console.log({ currentSelectedPost, key }, { CurrentFeed });
+              }
+            })()}
+          </Container>
+        </Box>
+      );
+    }
   } else if (currentSelectedPost) {
     return (
       <div>

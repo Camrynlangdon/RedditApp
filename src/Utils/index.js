@@ -1,11 +1,18 @@
 const getData = () => {
-  const getSubRedditFeed = async (currentSubreddit, searchType) => {
+  const getSubRedditFeed = async (Subreddit, SortType) => {
+    let response;
     try {
-      const response = await fetch('https://www.reddit.com/r/' + currentSubreddit + `/${searchType}.json`);
-      if (!response.ok) return;
-      const responseJson = await response.json();
-      if (responseJson.error === 404 || responseJson.message === 'Not Found') return;
+      if (Subreddit) {
+        response = await fetch(`https://www.reddit.com/r/${Subreddit}/${SortType}/.json`);
+      } else {
+        response = await fetch(`https://www.reddit.com/${SortType}/.json`);
+      }
 
+      if (!response.ok || !response) return;
+      const responseJson = await response.json();
+      if (responseJson.error === 404 || responseJson.message === 'Not Found' || responseJson.error === 302) return;
+
+      console.log({ responseJson });
       const cleanedData = await Promise.all(
         responseJson.data.children.map(async (child) => {
           const postData = child.data;
@@ -20,6 +27,8 @@ const getData = () => {
             score: postData.score,
             comments: await getPostComments(url),
             num_comments: postData.num_comments,
+            subreddit: postData.subreddit,
+            media: postData.media,
           };
         })
       );
@@ -48,7 +57,7 @@ const getData = () => {
     }
   };
 
-  const searchTypes = {
+  const SortType = {
     top: 'top',
     best: 'best',
     new: 'new',
@@ -59,7 +68,7 @@ const getData = () => {
 
   return {
     getSubRedditFeed,
-    searchTypes,
+    SortType,
   };
 };
 

@@ -5,8 +5,8 @@ const config = {
   // useSystemColorMode: false,
 
   colors: {
-    primary: 'rgba(20, 20, 20)',
-    secondary: 'rgb(35, 35, 35)',
+    primary: 'rgba(15, 15, 15)',
+    secondary: 'rgb(25, 25, 25)',
 
     black: {
       50: '#f5f3ef',
@@ -78,7 +78,7 @@ const config = {
       variants: {
         user: {
           color: 'grey',
-          fontSize: '14px',
+          fontSize: '11px',
           wordBreak: 'break-word',
         },
       },

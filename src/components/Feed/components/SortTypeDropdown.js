@@ -31,8 +31,8 @@ const Option = styled.option`
   cursor: pointer;
 `;
 
-const SearchButtons = ({ currentSearchType, setCurrentSearchType }) => {
-  const { searchTypes } = getData();
+const SortTypeDropdown = ({ currentSortType, setCurrentSortType }) => {
+  const { SortType } = getData();
 
   return (
     <MainContainer>
@@ -42,9 +42,9 @@ const SearchButtons = ({ currentSearchType, setCurrentSearchType }) => {
         color="white"
         bg="black"
         display="flex-start"
-        onChange={(e) => setCurrentSearchType(e.target.value)}
+        onChange={(e) => setCurrentSortType(e.target.value)}
       >
-        {Object.keys(searchTypes).map((type, key) => {
+        {Object.keys(SortType).map((type, key) => {
           return (
             <Option key={key} value={type}>
               {type}
@@ -56,4 +56,4 @@ const SearchButtons = ({ currentSearchType, setCurrentSearchType }) => {
   );
 };
 
-export default SearchButtons;
+export default SortTypeDropdown;

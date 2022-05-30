@@ -7,6 +7,7 @@ function App() {
   const MainDiv = Styled.div`
     
     height: 100vh;
+    height: 100vw;
 
   `;
 

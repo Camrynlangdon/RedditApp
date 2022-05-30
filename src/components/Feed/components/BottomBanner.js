@@ -15,8 +15,8 @@ const MainContainer = styled.div`
   width: 100%;
   height: 30px;
   border-top: 1px solid rgb(40, 40, 40);
-  padding-right: 14px;
-  padding-left: 14px;
+  padding-right: 12px;
+  padding-left: 12px;
 `;
 
 const ShareDiv = styled.div`
@@ -33,7 +33,7 @@ const ShareButton = styled.button`
   justify-content: center;
 `;
 
-const LowerButtons = ({ post }) => {
+const LowerButtons = ({ post, setCurrentSelectedPostAndKey }) => {
   const [copied, setCopied] = useState(false);
 
   const handleShareButton = () => {
@@ -68,7 +68,14 @@ const LowerButtons = ({ post }) => {
         }
       })()}
 
-      <Box display="flex" flex-direction="row" justifyContent="space-between" alignItems="center" w="45px">
+      <Box
+        display="flex"
+        flex-direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        w="45px"
+        onClick={() => setCurrentSelectedPostAndKey(post)}
+      >
         <FontAwesomeIcon icon={faComments} color={'white'} />
         <ShortNumbers number={post.num_comments} fontSize={'14px'} />
       </Box>

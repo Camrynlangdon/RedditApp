@@ -7,6 +7,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
+  width: 100%;
 `;
 const PostContainer = styled.div`
   display: flex;
@@ -16,10 +17,7 @@ const PostContainer = styled.div`
   padding-left: 5%;
   padding-right: 5%;
   padding-bottom: 20px;
-
-   {
-    /*min-height: 400px;*/
-  }
+  width: 100%;
 
   overflow-y: auto;
 
@@ -113,11 +111,14 @@ const RedditBrowser = ({ post, hideWindow }) => {
       >
         <Container>
           <PostContainer>
+            <Text fontSize="10px">r/{post.subreddit}</Text>
             <Text variant="user">{post?.author}</Text>
             <Text>{post.title}</Text>
-            <Text fontSize="12px" paddingTop="15px">
-              {post.selftext}
-            </Text>
+            {post.selftext && (
+              <Text fontSize="12px" paddingTop="10px">
+                {post.selftext}
+              </Text>
+            )}
           </PostContainer>
           <ImageContainer>{post?.image?.slice(-3) === 'jpg' && <Image src={post.image} alt={post.title} />}</ImageContainer>
           <BottomBanner post={post} />
