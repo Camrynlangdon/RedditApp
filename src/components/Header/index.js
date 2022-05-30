@@ -20,6 +20,7 @@ width: 100%;
 background-color: rgb(30, 30, 30);
 border: 1px solid;
 border-color: rgb(80, 80, 80);
+z-index: 1000;
 `;
 
 const Home = Styled.a`

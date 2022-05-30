@@ -28,11 +28,7 @@ const Image = styled.img`
   }
 `;
 
-const Audio = styled.audio`
-  width: 100%;
-  height: 50px;
-  background-color: gray;
-`;
+const Video = styled.video``;
 
 const isImage = (image) => {
   if (image.slice(-3) === 'jpg' || image.slice(-3) === 'gif') {
@@ -52,13 +48,13 @@ const Media = ({ post }) => {
   } else if (post?.media?.reddit_video?.fallback_url) {
     return (
       <div>
-        <video width="100%" controls src={post?.media?.reddit_video?.fallback_url} />
+        <Video width="100%" controls src={post?.media?.reddit_video?.fallback_url} />
         {/* audio format https://v.redd.it/8zlpt3sr1l291/DASH_audio.mp4 */}
         {/* <Audio height="25" controls src="https://v.redd.it/8zlpt3sr1l291/DASH_audio.mp4"></Audio> */}
       </div>
     );
   } else if (post.image.slice(-4) === 'gifv') {
-    return <video width="100%" autoPlay muted loop controls src={post.image.replace('gifv', 'mp4')} />;
+    return <Video width="100%" autoPlay muted loop controls src={post.image.replace('gifv', 'mp4')} />;
   } else if (post.image.includes('gfycat')) {
     const newLink = post.image.slice(0, 18) + '/ifr' + post.image.slice(18);
     return (
