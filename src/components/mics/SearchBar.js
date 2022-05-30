@@ -106,11 +106,6 @@ const SearchBar = (props) => {
     close();
   };
 
-  const upDateSearchValue = (value) => {
-    setSearchValue(value);
-    expand();
-  };
-
   return (
     <MainContainer>
       <SearchBarContainer>

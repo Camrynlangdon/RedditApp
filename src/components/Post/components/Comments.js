@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Text } from '@chakra-ui/react';
-import Vote from './Vote';
+import UpVoteDownVote from '../../mics/UpVoteDownVote';
 
 const MainContainer = styled.div`
   display: flex;
@@ -120,7 +120,7 @@ const BottomBanner = ({ comment, showButton, showResults, setShowResults }) => {
           </ButtonHideComment>
         )}
       </ButtonContainer>
-      <Vote commentData={comment.data} />
+      <UpVoteDownVote post={comment.data} />
     </BottomBannerContainer>
   );
 };

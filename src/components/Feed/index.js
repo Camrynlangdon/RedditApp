@@ -57,6 +57,8 @@ const PostData = styled.div`
   flex-direction: column;
   align-items: start;
   padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
 `;
 
 const TopNav = styled.div`

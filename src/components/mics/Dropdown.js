@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { Divider, Text, Button, Box } from '@chakra-ui/react';
 
 const MainContainer = styled.div`
@@ -10,15 +8,17 @@ const MainContainer = styled.div`
   background-color: inherit;
   padding-right: 15px;
   padding-left: 15px;
+  position: relative;
 `;
 
 const DropdownContainer = styled.div`
   position: fixed;
-  top: 51px;
+  top: 30px;
   right: 0px;
   display: flex;
   flex-direction: column;
 
+  width: 200px;
   border: 1px solid;
   border-radius: 3px;
 `;

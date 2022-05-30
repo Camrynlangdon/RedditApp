@@ -1,6 +1,6 @@
 import Styled from 'styled-components';
-import SearchBar from '../SearchBar';
-import Dropdown from '../Dropdown';
+import SearchBar from '../mics/SearchBar';
+import Dropdown from '../mics/Dropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';

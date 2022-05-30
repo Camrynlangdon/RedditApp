@@ -21,6 +21,7 @@ const getData = () => {
             image: postData.url,
             score: postData.score,
             comments: await getPostComments(url),
+            num_comments: postData.num_comments,
           };
         })
       );
