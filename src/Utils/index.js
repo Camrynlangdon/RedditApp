@@ -29,6 +29,7 @@ const getData = () => {
             num_comments: postData.num_comments,
             subreddit: postData.subreddit,
             media: postData.media,
+            over_18: postData.over_18,
           };
         })
       );

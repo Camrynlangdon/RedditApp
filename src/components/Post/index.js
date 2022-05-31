@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Comments from './components/Comments';
 import { Text, Box } from '@chakra-ui/react';
 import BottomBanner from '../Feed/components/BottomBanner';
+import Media from '../mics/Media';
 
 const Container = styled.div`
   display: flex;
@@ -23,31 +24,6 @@ const PostContainer = styled.div`
 
   a {
     color: white;
-  }
-`;
-
-const ImageContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Image = styled.img`
-  border-radius: 3px;
-  border-color: white;
-  border: solid;
-  border-width: 1px;
-
-  @media only screen and (max-width: 614px) {
-     {
-      width: 100%;
-    }
-  }
-  @media only screen and (min-width: 615px) {
-     {
-      max-height: 1000px;
-      max-width: 95%;
-    }
   }
 `;
 
@@ -120,7 +96,7 @@ const RedditBrowser = ({ post, hideWindow }) => {
               </Text>
             )}
           </PostContainer>
-          <ImageContainer>{post?.image?.slice(-3) === 'jpg' && <Image src={post.image} alt={post.title} />}</ImageContainer>
+          <Media post={post} />
           <BottomBanner post={post} />
         </Container>
 

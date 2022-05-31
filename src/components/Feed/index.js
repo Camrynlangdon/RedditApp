@@ -8,6 +8,7 @@ import BottomBanner from './components/BottomBanner';
 import SortTypeDropdown from './components/SortTypeDropdown';
 import LoadingScreen from '../mics/LoadingScreen';
 import Media from '../mics/Media';
+import NSFWToggleButton from '../mics/NSFWToggle';
 
 const Container = styled.div`
   display: flex;
@@ -61,9 +62,12 @@ const PostData = styled.div`
 `;
 
 const TopNav = styled.div`
-  padding-top: 18px;
+  width: 100%;
+  padding: 20px 10px 5px 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 6px;
 `;
 
@@ -100,6 +104,7 @@ const Feed = () => {
   const { getSubRedditFeed, SortType } = getData();
   const [currentSearchType, setCurrentSearchType] = useState(SortType.top);
   const [isLoading, setIsLoading] = useState(true);
+  const [showNSFW, setShowNSFW] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -121,7 +126,7 @@ const Feed = () => {
       }
     };
     fetch();
-  }, [currentSubreddit, currentSearchType]);
+  }, [currentSubreddit, currentSearchType, showNSFW]);
 
   const ChangeSubreddit = (subreddit) => {
     setIsLoading(true);
@@ -180,6 +185,7 @@ const Feed = () => {
     return (
       <FeedContainer>
         {posts.map((post, key) => {
+          if (post.over_18 && !showNSFW) return null;
           return (
             <PostContainer key={key}>
               <div>
@@ -202,9 +208,14 @@ const Feed = () => {
           <Container>
             <Header handleSearch={(value) => ChangeSubreddit(value)} />
             <TopNav>
+              <SortTypeDropdown
+                currentSearchType={currentSearchType}
+                setCurrentSortType={(type) => changeCurrentSortType(type)}
+              />
               <SearchError>{searchError}</SearchError>
+              <NSFWToggleButton onChange={() => setShowNSFW(!showNSFW)} />
             </TopNav>
-            <SortTypeDropdown currentSearchType={currentSearchType} setCurrentSortType={(type) => changeCurrentSortType(type)} />
+
             {(() => {
               if (SavedFeed) {
                 return (

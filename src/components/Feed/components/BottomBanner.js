@@ -47,26 +47,28 @@ const LowerButtons = ({ post, setCurrentSelectedPostAndKey }) => {
 
   return (
     <MainContainer>
-      {(() => {
-        if (copied) {
-          return (
-            <Text paddingRight="7px" fontSize="14px">
-              Copied to clipboard!
-            </Text>
-          );
-        } else {
-          return (
-            <ShareDiv>
-              <ShareButton onClick={handleShareButton}>
-                <FontAwesomeIcon icon={faDiagramProject} size={'1x'} color={'white'}></FontAwesomeIcon>
-                <Text fontSize="13px" paddingLeft="5px">
-                  Share
-                </Text>
-              </ShareButton>
-            </ShareDiv>
-          );
-        }
-      })()}
+      <Box w="150px">
+        {(() => {
+          if (copied) {
+            return (
+              <Text paddingRight="7px" fontSize="14px" wordBreak="none">
+                Copied to clipboard!
+              </Text>
+            );
+          } else {
+            return (
+              <ShareDiv>
+                <ShareButton onClick={handleShareButton}>
+                  <FontAwesomeIcon icon={faDiagramProject} size={'1x'} color={'white'}></FontAwesomeIcon>
+                  <Text fontSize="13px" paddingLeft="5px">
+                    Share
+                  </Text>
+                </ShareButton>
+              </ShareDiv>
+            );
+          }
+        })()}
+      </Box>
 
       <Box
         display="flex"
@@ -79,8 +81,9 @@ const LowerButtons = ({ post, setCurrentSelectedPostAndKey }) => {
         <FontAwesomeIcon icon={faComments} color={'white'} />
         <ShortNumbers number={post.num_comments} fontSize={'14px'} />
       </Box>
-
-      <UpVoteDownVote post={post} />
+      <Box w="150px" display="flex" justifyContent="end">
+        <UpVoteDownVote post={post} />
+      </Box>
     </MainContainer>
   );
 };

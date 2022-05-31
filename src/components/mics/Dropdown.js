@@ -13,7 +13,7 @@ const MainContainer = styled.div`
 
 const DropdownContainer = styled.div`
   position: fixed;
-  top: 30px;
+  top: 50px;
   right: 0px;
   display: flex;
   flex-direction: column;
@@ -95,7 +95,7 @@ const Dropdown = ({ handleSearch, options, icon, iconSize }) => {
         {(() => {
           if (expanded) {
             return (
-              <DropdownContainer onBlur={close}>
+              <DropdownContainer onBlur={() => close()}>
                 {options.map((option, i) => {
                   return (
                     <SubRedditOption backgroundColor="secondary" key={i} value={option} onClick={() => select(option)}>

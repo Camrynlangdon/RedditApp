@@ -2,12 +2,11 @@ import { getData } from '../../../Utils';
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
-  display: flex-start;
+  display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: start;
   align-items: center;
   width: 100%;
-  padding: 5px;
 `;
 
 const Dropdown = styled.select`

@@ -5,10 +5,8 @@ import Feed from './components/Feed';
 
 function App() {
   const MainDiv = Styled.div`
-    
     height: 100vh;
-    height: 100vw;
-
+    width: 100vw;
   `;
 
   return (
