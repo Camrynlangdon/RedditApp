@@ -6,7 +6,7 @@ import Feed from './components/Feed';
 function App() {
   const MainDiv = Styled.div`
     height: 100vh;
-    width: 100vw;
+
   `;
 
   return (
