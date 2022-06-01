@@ -206,7 +206,7 @@ const Feed = () => {
       return (
         <Box bg="primary" paddingTop="30px">
           <Container>
-            <Header handleSearch={(value) => ChangeSubreddit(value)} />
+            <Header userSettings={{ showNSFW: showNSFW }} handleSearch={(value) => ChangeSubreddit(value)} />
             <TopNav>
               <SortTypeDropdown
                 currentSearchType={currentSearchType}

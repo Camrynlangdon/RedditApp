@@ -12,7 +12,7 @@ const getData = () => {
       const responseJson = await response.json();
       if (responseJson.error === 404 || responseJson.message === 'Not Found' || responseJson.error === 302) return;
 
-      console.log({ responseJson });
+      //console.log({ responseJson });
       const cleanedData = await Promise.all(
         responseJson.data.children.map(async (child) => {
           const postData = child.data;
@@ -58,6 +58,46 @@ const getData = () => {
     }
   };
 
+  //https://www.reddit.com/subreddits/search.json?q=$a&include_over_18=on
+
+  const search = async (query, searchPref, NSFW) => {
+    let response;
+    let requestNSFW = 'off';
+    if (NSFW) {
+      requestNSFW = 'on';
+    }
+    try {
+      switch (searchPref) {
+        case searchType.subredditName:
+          response = await fetch(
+            `https://www.reddit.com/api/search_reddit_names.json?query=${query}&include_over_18=${requestNSFW}`
+          );
+          break;
+        case searchType.subredditStartsWith:
+          response = await fetch(`https://www.reddit.com/subreddits/search.json?q=${query}&include_over_18=${requestNSFW}`);
+          break;
+        default:
+          return;
+      }
+
+      if (!response.ok || !response || response.error === 404) return;
+      const responseJson = await response.json();
+
+      if (responseJson.message === 'Not Found' || responseJson.error === 404) return;
+
+      console.log({ responseJson });
+      return {
+        ...responseJson,
+        search: query,
+      };
+    } catch (error) {
+      return {
+        data: null,
+        error: 'no results found!',
+      };
+    }
+  };
+
   const SortType = {
     top: 'top',
     best: 'best',
@@ -67,9 +107,18 @@ const getData = () => {
     rising: 'rising',
   };
 
+  const searchType = {
+    //https://www.reddit.com/dev/api/#POST_api_search_subreddits
+    subredditStartsWith: 'subreddit',
+    subredditName: 'subredditName',
+    user: 'user',
+  };
+
   return {
     getSubRedditFeed,
     SortType,
+    search,
+    searchType,
   };
 };
 

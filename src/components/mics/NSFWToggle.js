@@ -1,8 +1,4 @@
-import { useState } from 'react';
-import styled from 'styled-components';
 import { Switch, Box, Text } from '@chakra-ui/react';
-import { faDiagramProject, faComments } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const NSFWToggleButton = (props) => {
   return (
