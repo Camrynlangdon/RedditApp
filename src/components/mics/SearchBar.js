@@ -95,7 +95,7 @@ const SearchBaDropdown = Styled.div`
 `;
 
 const SearchBar = ({ handleSearch, userSettings }) => {
-  const [searchValue, setSearchValue] = useState();
+  const [searchValue, setSearchValue] = useState('');
   const [expanded, setExpanded] = useState(true);
 
   const [searchResults, setSearchResults] = useState(null);
@@ -104,7 +104,6 @@ const SearchBar = ({ handleSearch, userSettings }) => {
   const fetchSearch = async (value) => {
     const fetch = async () => {
       try {
-        console.log(userSettings.showNSFW);
         return await search(value, searchType.subredditName, userSettings.showNSFW);
       } catch (error) {
         console.log('Could not fetch search results', error);
@@ -113,7 +112,6 @@ const SearchBar = ({ handleSearch, userSettings }) => {
     };
     const results = await fetch();
     setSearchResults(results);
-    //console.log({ searchResults });
   };
 
   useEffect(() => {
@@ -168,8 +166,8 @@ const SearchBar = ({ handleSearch, userSettings }) => {
               color="white"
               size="1x"
               position="absolute"
-              alignItems="center"
-              justifyContent="center"
+              alignitems="center"
+              justifycontent="center"
               style={{ margin: ' 1px 1px 1px 15px' }}
             />
           </button>

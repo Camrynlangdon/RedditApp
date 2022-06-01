@@ -85,7 +85,6 @@ const getData = () => {
 
       if (responseJson.message === 'Not Found' || responseJson.error === 404) return;
 
-      console.log({ responseJson });
       return {
         ...responseJson,
         search: query,
