@@ -35,7 +35,7 @@ const Home = Styled.a`
   border-radius: 100px;
 `;
 
-const Header = ({ handleSearch }) => {
+const Header = ({ handleSearch, userSettings }) => {
   const options = [
     'pics',
     'stories',
@@ -55,7 +55,7 @@ const Header = ({ handleSearch }) => {
       </Home>
 
       <div>
-        <SearchBar onClick={(value) => handleSearch(value)} />
+        <SearchBar userSettings={userSettings} handleSearch={(value) => handleSearch(value)} />
       </div>
       <Dropdown handleSearch={(value) => handleSearch(value)} options={options} icon={faBars} iconSize={'2x'} />
     </MainContainer>
