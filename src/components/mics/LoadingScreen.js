@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedditAlien } from '@fortawesome/free-brands-svg-icons';
@@ -23,13 +23,6 @@ const LoadingScreen = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
-
-const LoadingText = styled.p`
-  padding-top: 5px;
-  font-size: 25px;
-
-  animation: spin 2s infinite infinite;
 `;
 
 const rotate = keyframes`
@@ -62,7 +55,9 @@ const LoadingScreenExport = () => {
             />
           </LoadingLogo>
         </Rotate>
-        <LoadingText>...loading</LoadingText>
+        <Text fontSize="25px" paddingTop="5px">
+          ...loading
+        </Text>
       </LoadingScreen>
     </Box>
   );

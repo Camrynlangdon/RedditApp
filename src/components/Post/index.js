@@ -72,7 +72,9 @@ const RedditBrowser = ({ post, hideWindow }) => {
   return (
     <Box bg="primary" w="100%" display="flex" flexDirection="column" alignItems="center" justifyContent="center" paddingTop="85">
       <PostBanner>
-        <ExitButton onClick={(event) => hideWindow(event)}>X Close</ExitButton>
+        <ExitButton onClick={(event) => hideWindow(event)}>
+          <Text>X Close</Text>
+        </ExitButton>
       </PostBanner>
 
       <Box

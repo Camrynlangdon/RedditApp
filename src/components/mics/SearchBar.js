@@ -31,8 +31,7 @@ const SearchField = Styled.input`
 
   :focus {
     outline: none;
-}
-    
+}   
 `;
 
 const Button = Styled.button`
@@ -91,7 +90,6 @@ const SearchBaDropdown = Styled.div`
   border-left: 1px solid;
   border-right: 1px solid;
   border-bottom: 1px solid;
-  
 `;
 
 const SearchBar = ({ handleSearch, userSettings }) => {
