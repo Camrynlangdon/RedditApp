@@ -21,7 +21,7 @@ const SearchField = Styled.input`
   background: none;
   color: white;
 
-  width: 70%;
+  width: 100%;
   height: 80%;
   padding-left: 30px;
   padding-right: 15px;
@@ -158,18 +158,21 @@ const SearchBar = ({ handleSearch, userSettings }) => {
               onChange={(event) => searchOnChange(event.target.value)}
             ></SearchField>
           </Box>
-          <button onClick={() => setSearchValue('')}>
-            <FontAwesomeIcon
-              icon={faClose}
-              color="white"
-              size="1x"
-              position="absolute"
-              alignitems="center"
-              justifycontent="center"
-              style={{ margin: ' 1px 1px 1px 15px' }}
-            />
-          </button>
+          {searchValue !== '' && (
+            <button onClick={() => setSearchValue('')}>
+              <FontAwesomeIcon
+                icon={faClose}
+                color="white"
+                size="1x"
+                position="absolute"
+                alignitems="center"
+                justifycontent="center"
+                style={{ margin: ' 1px 1px 1px 1px' }}
+              />
+            </button>
+          )}
         </Box>
+
         {(() => {
           if (searchValue && expanded) {
             return (
