@@ -152,6 +152,7 @@ const Feed = () => {
   };
 
   const MainFeed = ({ post }) => {
+    console.log({ post });
     return (
       <Post>
         <PostData>

@@ -17,6 +17,9 @@ const MainContainer = styled.div`
   border-top: 1px solid rgb(40, 40, 40);
   padding-right: 12px;
   padding-left: 12px;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
 `;
 
 const ShareDiv = styled.div`
@@ -78,7 +81,9 @@ const LowerButtons = ({ post, setCurrentSelectedPostAndKey }) => {
         w="45px"
         onClick={() => setCurrentSelectedPostAndKey(post)}
       >
-        <FontAwesomeIcon icon={faComments} color={'white'} />
+        <Box paddingRight="10px">
+          <FontAwesomeIcon icon={faComments} color={'white'} />
+        </Box>
         <ShortNumbers number={post.num_comments} fontSize={'14px'} />
       </Box>
       <Box w="150px" display="flex" justifyContent="end">
