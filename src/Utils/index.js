@@ -17,7 +17,6 @@ const getData = () => {
         responseJson.data.children.map(async (child) => {
           const postData = child.data;
           const url = `https://www.reddit.com/${postData.permalink}`;
-          //console.log({ postData });
           return {
             title: postData.title,
             selftext: postData.selftext,
@@ -30,6 +29,7 @@ const getData = () => {
             subreddit: postData.subreddit,
             media: postData.media,
             over_18: postData.over_18,
+            all_awardings: postData.all_awardings,
           };
         })
       );

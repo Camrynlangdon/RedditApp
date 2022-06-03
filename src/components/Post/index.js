@@ -3,6 +3,7 @@ import Comments from './components/Comments';
 import { Text, Box } from '@chakra-ui/react';
 import BottomBanner from '../Feed/components/BottomBanner';
 import Media from '../mics/Media';
+import Awardings from '../mics/Awardings';
 
 const Container = styled.div`
   display: flex;
@@ -91,6 +92,7 @@ const RedditBrowser = ({ post, hideWindow }) => {
           <PostContainer>
             <Text fontSize="10px">r/{post.subreddit}</Text>
             <Text variant="user">{post?.author}</Text>
+            <Awardings awards={post.all_awardings} />
             <Text>{post.title}</Text>
             {post.selftext && (
               <Text fontSize="12px" paddingTop="10px">

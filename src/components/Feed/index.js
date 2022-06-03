@@ -9,6 +9,7 @@ import SortTypeDropdown from './components/SortTypeDropdown';
 import LoadingScreen from '../mics/LoadingScreen';
 import Media from '../mics/Media';
 import NSFWToggleButton from '../mics/NSFWToggle';
+import Awardings from '../mics/Awardings';
 
 const Container = styled.div`
   display: flex;
@@ -152,7 +153,6 @@ const Feed = () => {
   };
 
   const MainFeed = ({ post }) => {
-    console.log({ post });
     return (
       <Post>
         <PostData>
@@ -169,9 +169,11 @@ const Feed = () => {
               u/{post?.author}
             </Text>
           </Box>
+
           <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}>test</EmptyBox>
         </PostData>
 
+        <Awardings awards={post.all_awardings} />
         <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}>
           <Text w="100%" padding="0px 15px 5px 15px">
             {post.title}

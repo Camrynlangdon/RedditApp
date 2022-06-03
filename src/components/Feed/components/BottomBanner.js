@@ -18,8 +18,8 @@ const MainContainer = styled.div`
   padding-right: 12px;
   padding-left: 12px;
 
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 `;
 
 const ShareDiv = styled.div`
