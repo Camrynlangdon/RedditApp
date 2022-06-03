@@ -35,9 +35,9 @@ const Awardings = ({ awards }) => {
   if (awards.length === 0) return;
   return (
     <AwardsContainer>
-      {awards.map((award) => {
+      {awards.map((award, index) => {
         return (
-          <Award>
+          <Award key={index}>
             <Tooltip label={award.name}>
               <Icon src={award.icon_url}></Icon>
             </Tooltip>

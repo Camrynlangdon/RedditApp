@@ -170,7 +170,7 @@ const Feed = () => {
             </Text>
           </Box>
 
-          <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}>test</EmptyBox>
+          <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}></EmptyBox>
         </PostData>
 
         <Awardings awards={post.all_awardings} />
