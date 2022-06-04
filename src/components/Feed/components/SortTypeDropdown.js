@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { getData } from '../../../Utils';
 import styled from 'styled-components';
+import { Text, Radio, RadioGroup, Stack } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 
 const MainContainer = styled.div`
   display: flex;
@@ -7,50 +10,161 @@ const MainContainer = styled.div`
   justify-content: start;
   align-items: center;
   width: 100%;
+  max-width: 100%;
 `;
 
-const Dropdown = styled.select`
-  color: white;
-  width: 70px;
-  height: 30px;
-  background-color: inherit;
+const SortTimeContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
-  border: 1px solid rgb(50, 50, 50);
-  border-radius: 3px;
+  margin-left: 15px;
 `;
 
-const Option = styled.option`
-  color: white;
-  background-color: rgb(40, 40, 40);
-  padding: 10px;
+const SortTimeDropdown = styled.div`
+  position: absolute;
 
-  border: 2px solid gray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgb(35, 35, 35);
+  border: solid 1px rgb(80, 80, 80);
   border-radius: 4px;
 
-  cursor: pointer;
+  padding: 0px 7px 0px 7px;
 `;
 
-const SortTypeDropdown = ({ currentSortType, setCurrentSortType }) => {
-  const { SortType } = getData();
+const SortTimeButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 30px;
+  width: 75px;
+
+  border: 1px solid rgb(45, 45, 45);
+  border-radius: 3px;
+
+  margin: 0px 3px 0px 3px;
+`;
+
+const BoxForSpacing = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-left: 4px;
+  padding-right: 4px;
+`;
+
+const SortTypeDropdown = ({ currentSortType, setCurrentSortType, setCurrentSortTime, currentSortTime }) => {
+  const { SortType, SortTimeFrame } = getData();
+  const [sortTime, setSortTime] = useState(currentSortTime);
+  const [sortType, setSortType] = useState(currentSortType);
+  const [sortTimeDropdown, setSortTimeDropdown] = useState(false);
+  const [sortTypeDropdown, setSortTypeDropdown] = useState(false);
+
+  const changeSortTime = (time) => {
+    setSortTime(time);
+    setCurrentSortTime(time);
+  };
+
+  const changeSortType = (type) => {
+    setSortType(type);
+    setCurrentSortType(type);
+  };
+
+  const useTimeDropdown = () => {
+    setSortTypeDropdown(false);
+    setSortTimeDropdown(!sortTimeDropdown);
+  };
+
+  const useSortDropdown = () => {
+    setSortTimeDropdown(false);
+    setSortTypeDropdown(!sortTimeDropdown);
+  };
+
+  const SearchTimeContainer = () => {
+    return (
+      <div>
+        <SortTimeButton onClick={useTimeDropdown}>
+          <BoxForSpacing>
+            <Text wordBreak="none">{sortTime}</Text>
+          </BoxForSpacing>
+          <BoxForSpacing>
+            <ChevronDownIcon color="white" w={5} h={5} marginLeft="5px"></ChevronDownIcon>
+          </BoxForSpacing>
+        </SortTimeButton>
+
+        <div>
+          {sortTimeDropdown && (
+            <SortTimeDropdown>
+              <RadioGroup onChange={(e) => changeSortTime(e)} value={sortTime}>
+                <Stack direction="column">
+                  {Object.keys(SortTimeFrame).map((time, key) => {
+                    return (
+                      <Radio value={time} key={key}>
+                        <Text>{time}</Text>
+                      </Radio>
+                    );
+                  })}
+                </Stack>
+              </RadioGroup>
+            </SortTimeDropdown>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const SortTypeContainer = () => {
+    return (
+      <div>
+        <SortTimeButton onClick={useSortDropdown}>
+          <BoxForSpacing>
+            <Text wordBreak="none">{sortType}</Text>
+          </BoxForSpacing>
+          <BoxForSpacing>
+            <ChevronDownIcon color="white" w={5} h={5} marginLeft="5px"></ChevronDownIcon>
+          </BoxForSpacing>
+        </SortTimeButton>
+
+        <div>
+          {sortTypeDropdown && (
+            <SortTimeDropdown>
+              <RadioGroup onChange={(e) => changeSortType(e)} value={sortType}>
+                <Stack direction="column">
+                  {Object.keys(SortType).map((type, key) => {
+                    return (
+                      <Radio value={type} key={key}>
+                        <Text>{type}</Text>
+                      </Radio>
+                    );
+                  })}
+                </Stack>
+              </RadioGroup>
+            </SortTimeDropdown>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <MainContainer>
-      <Dropdown
-        placeholder="Sort Option"
-        w="100px"
-        color="white"
-        bg="black"
-        display="flex-start"
-        onChange={(e) => setCurrentSortType(e.target.value)}
-      >
-        {Object.keys(SortType).map((type, key) => {
+      <SortTypeContainer />
+      {(() => {
+        if (currentSortType === SortType.top) {
           return (
-            <Option key={key} value={type}>
-              {type}
-            </Option>
+            <SortTimeContainer>
+              <SearchTimeContainer></SearchTimeContainer>
+            </SortTimeContainer>
           );
-        })}
-      </Dropdown>
+        }
+      })()}
     </MainContainer>
   );
 };

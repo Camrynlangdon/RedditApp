@@ -64,12 +64,16 @@ const PostData = styled.div`
 
 const TopNav = styled.div`
   width: 100%;
-  padding: 20px 10px 5px 10px;
+  padding: 2px 10px 2px 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin: 6px 0px 15px 0px;
+
+  background-color: rgb(35, 35, 35);
+  border: solid 1px rgb(80, 80, 80);
+  border-radius: 4px;
 `;
 
 const FeedContainer = styled.div`
@@ -102,8 +106,9 @@ const Feed = () => {
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
   const [SavedFeed, setSavedFeed] = useState(null);
-  const { getSubRedditFeed, SortType } = getData();
+  const { getSubRedditFeed, SortType, SortTimeFrame } = getData();
   const [currentSearchType, setCurrentSearchType] = useState(SortType.top);
+  const [currentSortTime, setCurrentSortTime] = useState(SortTimeFrame.week);
   const [isLoading, setIsLoading] = useState(true);
   const [showNSFW, setShowNSFW] = useState(false);
 
@@ -111,7 +116,7 @@ const Feed = () => {
     const fetch = async () => {
       try {
         const post = await (() => {
-          return getSubRedditFeed(currentSubreddit, currentSearchType);
+          return getSubRedditFeed(currentSubreddit, currentSearchType, currentSortTime);
         })();
         setPosts(post.data);
         setSavedFeed(() => {
@@ -127,7 +132,7 @@ const Feed = () => {
       }
     };
     fetch();
-  }, [currentSubreddit, currentSearchType, showNSFW]);
+  }, [currentSubreddit, currentSearchType, showNSFW, currentSortTime]);
 
   const ChangeSubreddit = (subreddit) => {
     setIsLoading(true);
@@ -138,6 +143,11 @@ const Feed = () => {
   const changeCurrentSortType = (type) => {
     setIsLoading(true);
     setCurrentSearchType(type);
+  };
+
+  const changeCurrentSortTime = (time) => {
+    setIsLoading(true);
+    setCurrentSortTime(time);
   };
 
   const PostBody = ({ post, hideWindow }) => {
@@ -164,7 +174,6 @@ const Feed = () => {
                 </Text>
               </SubredditButton>
             )}
-
             <Text variant="user" wordBreak="none">
               u/{post?.author}
             </Text>
@@ -187,6 +196,19 @@ const Feed = () => {
   const FeedMap = () => {
     return (
       <FeedContainer>
+        <SearchError>{searchError}</SearchError>
+        <TopNav>
+          <SortTypeDropdown
+            currentSearchType={currentSearchType}
+            setCurrentSortType={(type) => changeCurrentSortType(type)}
+            currentSortType={currentSearchType}
+            setCurrentSortTime={(value) => changeCurrentSortTime(value)}
+            currentSortTime={currentSortTime}
+          />
+
+          <NSFWToggleButton onChange={() => setShowNSFW(!showNSFW)} />
+        </TopNav>
+
         {posts.map((post, key) => {
           if (post.over_18 && !showNSFW) return null;
           return (
@@ -210,14 +232,6 @@ const Feed = () => {
         <Box bg="primary" paddingTop="30px">
           <Container>
             <Header userSettings={{ showNSFW: showNSFW }} handleSearch={(value) => ChangeSubreddit(value)} />
-            <TopNav>
-              <SortTypeDropdown
-                currentSearchType={currentSearchType}
-                setCurrentSortType={(type) => changeCurrentSortType(type)}
-              />
-              <SearchError>{searchError}</SearchError>
-              <NSFWToggleButton onChange={() => setShowNSFW(!showNSFW)} />
-            </TopNav>
 
             {(() => {
               if (SavedFeed) {

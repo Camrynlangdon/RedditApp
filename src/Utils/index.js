@@ -1,11 +1,11 @@
 const getData = () => {
-  const getSubRedditFeed = async (Subreddit, SortType) => {
+  const getSubRedditFeed = async (Subreddit, SortType, currentSortTime) => {
     let response;
     try {
       if (Subreddit) {
-        response = await fetch(`https://www.reddit.com/r/${Subreddit}/${SortType}/.json`);
+        response = await fetch(`https://www.reddit.com/r/${Subreddit}/${SortType}/.json?t=${currentSortTime}`);
       } else {
-        response = await fetch(`https://www.reddit.com/${SortType}/.json`);
+        response = await fetch(`https://www.reddit.com/${SortType}/.json?t=${currentSortTime}`);
       }
 
       if (!response.ok || !response) return;
@@ -106,6 +106,15 @@ const getData = () => {
     rising: 'rising',
   };
 
+  const SortTimeFrame = {
+    all: 'all',
+    year: 'year',
+    month: 'month',
+    week: 'week',
+    day: 'day',
+    hour: 'hour',
+  };
+
   const searchType = {
     //https://www.reddit.com/dev/api/#POST_api_search_subreddits
     subredditStartsWith: 'subreddit',
@@ -116,6 +125,7 @@ const getData = () => {
   return {
     getSubRedditFeed,
     SortType,
+    SortTimeFrame,
     search,
     searchType,
   };
