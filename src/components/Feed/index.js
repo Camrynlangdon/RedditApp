@@ -231,7 +231,6 @@ const Feed = () => {
                 setSavedFeed(() => {
                   return FeedMap;
                 });
-                //console.log({ currentSelectedPost, key }, { CurrentFeed });
               }
             })()}
           </Container>
