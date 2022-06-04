@@ -40,24 +40,11 @@ const SortTimeDropdown = styled.div`
 const SortTimeButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-
-  height: 30px;
-  width: 75px;
-
-  border: 1px solid rgb(45, 45, 45);
-  border-radius: 3px;
-
-  margin: 0px 3px 0px 3px;
-`;
-
-const BoxForSpacing = styled.div`
-  display: flex;
-  align-items: center;
   justify-content: center;
 
-  padding-left: 4px;
-  padding-right: 4px;
+  height: 30px;
+  min-width: 65px;
+  margin: 0px 1px 0px 1px;
 `;
 
 const SortTypeDropdown = ({ currentSortType, setCurrentSortType, setCurrentSortTime, currentSortTime }) => {
@@ -84,19 +71,15 @@ const SortTypeDropdown = ({ currentSortType, setCurrentSortType, setCurrentSortT
 
   const useSortDropdown = () => {
     setSortTimeDropdown(false);
-    setSortTypeDropdown(!sortTimeDropdown);
+    setSortTypeDropdown(!sortTypeDropdown);
   };
 
   const SearchTimeContainer = () => {
     return (
       <div>
         <SortTimeButton onClick={useTimeDropdown}>
-          <BoxForSpacing>
-            <Text wordBreak="none">{sortTime}</Text>
-          </BoxForSpacing>
-          <BoxForSpacing>
-            <ChevronDownIcon color="white" w={5} h={5} marginLeft="5px"></ChevronDownIcon>
-          </BoxForSpacing>
+          <Text wordBreak="none">{sortTime}</Text>
+          <ChevronDownIcon color="white" w={5} h={5} marginLeft="5px"></ChevronDownIcon>
         </SortTimeButton>
 
         <div>
@@ -124,12 +107,8 @@ const SortTypeDropdown = ({ currentSortType, setCurrentSortType, setCurrentSortT
     return (
       <div>
         <SortTimeButton onClick={useSortDropdown}>
-          <BoxForSpacing>
-            <Text wordBreak="none">{sortType}</Text>
-          </BoxForSpacing>
-          <BoxForSpacing>
-            <ChevronDownIcon color="white" w={5} h={5} marginLeft="5px"></ChevronDownIcon>
-          </BoxForSpacing>
+          <Text wordBreak="none">{sortType}</Text>
+          <ChevronDownIcon color="white" w={5} h={5} marginLeft="5px"></ChevronDownIcon>
         </SortTimeButton>
 
         <div>

@@ -69,7 +69,7 @@ const TopNav = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 6px 0px 15px 0px;
+  margin: 25px 0px 15px 0px;
 
   background-color: rgb(35, 35, 35);
   border: solid 1px rgb(80, 80, 80);
@@ -108,7 +108,7 @@ const Feed = () => {
   const [SavedFeed, setSavedFeed] = useState(null);
   const { getSubRedditFeed, SortType, SortTimeFrame } = getData();
   const [currentSearchType, setCurrentSearchType] = useState(SortType.top);
-  const [currentSortTime, setCurrentSortTime] = useState(SortTimeFrame.week);
+  const [currentSortTime, setCurrentSortTime] = useState(SortTimeFrame.day);
   const [isLoading, setIsLoading] = useState(true);
   const [showNSFW, setShowNSFW] = useState(false);
 
