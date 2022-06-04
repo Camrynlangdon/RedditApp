@@ -44,7 +44,7 @@ const LoadingScreenExport = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setTimeout(() => setError('loadingError'), 5000);
+    setTimeout(() => setError('loadingError'), 7000);
   }, []);
 
   return (

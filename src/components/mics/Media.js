@@ -52,13 +52,13 @@ const GfyCat = ({ post }) => {
   return (
     <iframe
       width="100%"
-      height="300px"
+      height="450px"
       src={newLink}
       frameBorder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
       title="Embedded youtube"
-      aria-describedby="descriptionText"
+      aria-describedby="gif"
     />
   );
 };
