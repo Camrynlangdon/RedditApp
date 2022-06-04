@@ -50,7 +50,7 @@ const LoadingScreenExport = () => {
   return (
     <Box bg="primary" height="100%">
       <LoadingScreen>
-        <Box paddingTop="50%">
+        <Box paddingTop="200px">
           <Rotate>
             <LoadingLogo href="../index">
               <FontAwesomeIcon
