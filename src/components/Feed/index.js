@@ -111,7 +111,6 @@ const Feed = () => {
   const [showNSFW, setShowNSFW] = useState(false);
 
   useEffect(() => {
-    console.log({ showNSFW });
     const fetch = async () => {
       try {
         const post = await (() => {
