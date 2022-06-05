@@ -4,6 +4,8 @@ import { Text, Box } from '@chakra-ui/react';
 import BottomBanner from '../Feed/components/BottomBanner';
 import Media from '../mics/Media';
 import Awardings from '../mics/Awardings';
+import Markdown from '../mics/markdown';
+import Link from '../mics/Link';
 
 const Container = styled.div`
   display: flex;
@@ -12,7 +14,7 @@ const Container = styled.div`
   width: 100%;
 `;
 const PostContainer = styled.div`
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   justify-items: center;
   padding-top: 25px;
@@ -23,9 +25,9 @@ const PostContainer = styled.div`
 
   overflow-y: auto;
 
-  a {
+  /* a {
     color: white;
-  }
+  } */
 `;
 
 const CommentContainer = styled.div`
@@ -69,7 +71,6 @@ const PostBanner = styled.div`
 
 const RedditBrowser = ({ post, hideWindow }) => {
   if (!post) return '...loading';
-
   return (
     <Box bg="primary" w="100%" display="flex" flexDirection="column" alignItems="center" justifyContent="center" paddingTop="85">
       <PostBanner>
@@ -92,13 +93,10 @@ const RedditBrowser = ({ post, hideWindow }) => {
           <PostContainer>
             <Text fontSize="10px">r/{post.subreddit}</Text>
             <Text variant="user">{post?.author}</Text>
-            <Awardings awards={post.all_awardings} />
-            <Text>{post.title}</Text>
-            {post.selftext && (
-              <Text fontSize="12px" paddingTop="10px">
-                {post.selftext}
-              </Text>
-            )}
+            <Awardings awards={post.all_awardings} style={{ fontWeight: 'bold' }} />
+            <Markdown text={post.title} fontSize="17px" />
+            {post.image && <Link href={post.image} text={post.image} />}
+            {post.selftext && <Markdown text={post.selftext} fontSize="12px" style={{ paddingTop: '10px' }} />}
           </PostContainer>
           <Media post={post} />
           <BottomBanner post={post} />
