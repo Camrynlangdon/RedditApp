@@ -23,9 +23,7 @@ const NSFWToggleButton = ({ setShowNSFW, isChecked }) => {
         onChange={(e) => setCheckValue(e.target.checked)}
       >
         <Switch id="nsfw-toggle" size="lg" colorScheme="red" paddingTop="15px" isChecked={checked} />
-        <FormLabel htmlFor="nsfw-toggle" mb="0" color="white" fontSize="12px">
-          NSFW
-        </FormLabel>
+        <Text fontSize="12px">NSFW</Text>
       </FormControl>
     </Box>
   );
