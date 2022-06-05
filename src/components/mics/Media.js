@@ -9,7 +9,13 @@ const ImageContainer = styled.div`
 const Video = styled.video``;
 
 const isImage = (image) => {
-  if (image.slice(-3) === 'jpg' || image.slice(-3) === 'jpeg' || image.slice(-3) === 'gif' || image.slice(-3) === 'png') {
+  if (
+    image.slice(-3) === 'jpg' ||
+    image.slice(-3) === 'jpeg' ||
+    image.slice(-3) === 'gif' ||
+    image.slice(-3) === 'png' ||
+    image.includes('imgur')
+  ) {
     return true;
   }
 };

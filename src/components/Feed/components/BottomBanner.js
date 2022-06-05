@@ -50,7 +50,7 @@ const LowerButtons = ({ post, setCurrentSelectedPostAndKey }) => {
 
   return (
     <MainContainer>
-      <Box w="150px">
+      <Box w="135px">
         {(() => {
           if (copied) {
             return (

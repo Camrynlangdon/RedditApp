@@ -12,7 +12,6 @@ const StyledLink = styled.a`
 
 const shortenLink = (link) => {
   if (link.includes(`https://`) && !link.includes(`redd`)) {
-    console.log(true, link);
     const n = 25;
     return link.length > n ? link.substr(8, n - 1) + '....' : link;
   }
@@ -27,7 +26,8 @@ const isImage = (image) => {
     image.includes('gifv') ||
     image.includes('gfycat') ||
     image.includes('yout') ||
-    image.includes(`redd`)
+    image.includes(`redd`) ||
+    image.includes('imgur')
   ) {
     return true;
   }
