@@ -10,6 +10,7 @@ import LoadingScreen from '../mics/LoadingScreen';
 import Media from '../mics/Media';
 import NSFWToggleButton from '../mics/NSFWToggle';
 import Awardings from '../mics/Awardings';
+import Link from '../mics/Link';
 
 const Container = styled.div`
   display: flex;
@@ -43,9 +44,6 @@ const PostContainer = styled.div`
       max-width: 800px;
       border-radius: 4px;
     }
-  }
-  a {
-    color: white;
   }
 `;
 
@@ -166,7 +164,7 @@ const Feed = () => {
     return (
       <Post>
         <PostData>
-          <Box display="flex-start" alignItems="start" flexDirection="column">
+          <Box display="inline-flex" alignItems="start" flexDirection="column">
             {!currentSubreddit && (
               <SubredditButton onClick={() => ChangeSubreddit(post.subreddit)}>
                 <Text wordBreak="none" fontSize="10px">
@@ -174,9 +172,7 @@ const Feed = () => {
                 </Text>
               </SubredditButton>
             )}
-            <Text variant="user" wordBreak="none">
-              u/{post?.author}
-            </Text>
+            <Text variant="user">u/{post?.author}</Text>
           </Box>
 
           <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}></EmptyBox>
@@ -187,8 +183,12 @@ const Feed = () => {
           <Text w="100%" padding="0px 15px 5px 15px">
             {post.title}
           </Text>
+
           <Media post={post} />
         </EmptyBox>
+        <Box marginLeft="20px" marginTop="-7px" marginBottom="7px">
+          {post.image && <Link href={post.image} text={post.image} />}
+        </Box>
       </Post>
     );
   };

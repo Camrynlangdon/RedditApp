@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Text } from '@chakra-ui/react';
 import UpVoteDownVote from '../../mics/UpVoteDownVote';
 
+import Markdown from '../../mics/markdown';
+
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -128,7 +130,6 @@ const Comment = ({ comment }) => {
   const [showResults, setShowResults] = useState(false);
   const [showButton, setShowButton] = useState(false);
   let childComments = comment.data.replies?.data?.children;
-
   if (
     childComments &&
     childComments !== undefined &&
@@ -150,7 +151,8 @@ const Comment = ({ comment }) => {
             <Text variant="user" fontSize="12px">
               {comment.data.author}
             </Text>
-            <Text fontSize="13px">{comment.data.body}</Text>
+            {/* <Text fontSize="13px">{comment.data.body}</Text> */}
+            <Markdown text={comment.data.body} />
           </Body>
           <BottomBanner comment={comment} showButton={showButton} showResults={showResults} setShowResults={setShowResults} />
         </Post>

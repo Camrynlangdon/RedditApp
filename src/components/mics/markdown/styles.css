@@ -1,0 +1,19 @@
+.reactMarkDown a {
+    color: #5069D0;
+    text-decoration: underline;
+}
+
+.reactMarkDown a:visited {
+    color: green;
+}
+
+.reactMarkDown a:hover {
+    color: #4C43CD;
+}
+  
+.reactMarkDown ul {
+    margin-left: 35px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    list-style: disc outside none;
+}

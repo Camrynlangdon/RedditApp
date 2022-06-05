@@ -79,7 +79,7 @@ const config = {
         user: {
           color: 'grey',
           fontSize: '11px',
-          wordBreak: 'break-word',
+          wordBreak: 'keep-all',
         },
       },
     },
