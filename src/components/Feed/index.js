@@ -206,7 +206,7 @@ const Feed = () => {
             currentSortTime={currentSortTime}
           />
 
-          <NSFWToggleButton onChange={() => setShowNSFW(!showNSFW)} />
+          <NSFWToggleButton setShowNSFW={(bool) => setShowNSFW(bool)} isChecked={showNSFW} />
         </TopNav>
 
         {posts.map((post, key) => {
