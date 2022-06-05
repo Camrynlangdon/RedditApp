@@ -180,11 +180,11 @@ const Feed = () => {
 
         <Awardings awards={post.all_awardings} />
         <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}>
-          <Text w="100%" padding="0px 15px 5px 15px">
+          <Text w="100%" padding="0px 15px 5px 15px" onClick={() => setCurrentSelectedPostAndKey(post)}>
             {post.title}
           </Text>
 
-          <Media post={post} />
+          <Media post={post} onClick={() => setCurrentSelectedPostAndKey(post)} />
         </EmptyBox>
         <Box marginLeft="20px" marginTop="-7px" marginBottom="7px">
           {post.image && <Link href={post.image} text={post.image} />}
