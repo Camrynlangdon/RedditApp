@@ -13,15 +13,6 @@ const MainContainer = styled.div`
   max-width: 100%;
 `;
 
-const SortTimeContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  margin-left: 15px;
-`;
-
 const SortTimeDropdown = styled.div`
   position: absolute;
 
@@ -137,11 +128,7 @@ const SortTypeDropdown = ({ currentSortType, setCurrentSortType, setCurrentSortT
       <SortTypeContainer />
       {(() => {
         if (currentSortType === SortType.top) {
-          return (
-            <SortTimeContainer>
-              <SearchTimeContainer></SearchTimeContainer>
-            </SortTimeContainer>
-          );
+          return <SearchTimeContainer />;
         }
       })()}
     </MainContainer>
