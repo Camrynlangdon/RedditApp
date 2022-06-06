@@ -73,6 +73,21 @@ const BottomBannerContainer = styled.div`
   border-color: rgba(40, 40, 40);
 `;
 
+const BottomBanner = ({ comment, showButton, showResults, setShowResults }) => {
+  return (
+    <BottomBannerContainer>
+      <ButtonContainer>
+        {showButton && (
+          <ButtonHideComment onClick={() => setShowResults(!showResults)}>
+            {!showResults ? <Text>Show</Text> : <Text>Hide</Text>}
+          </ButtonHideComment>
+        )}
+      </ButtonContainer>
+      <UpVoteDownVote post={comment.data} />
+    </BottomBannerContainer>
+  );
+};
+
 const CommentThread = ({ comments, parentComment }) => {
   if (comments === undefined) return null;
   return (
@@ -112,20 +127,6 @@ const CommentThread = ({ comments, parentComment }) => {
   );
 };
 
-const BottomBanner = ({ comment, showButton, showResults, setShowResults }) => {
-  return (
-    <BottomBannerContainer>
-      <ButtonContainer>
-        {showButton && (
-          <ButtonHideComment onClick={() => setShowResults(!showResults)}>
-            {!showResults ? <Text>Show</Text> : <Text>Hide</Text>}
-          </ButtonHideComment>
-        )}
-      </ButtonContainer>
-      <UpVoteDownVote post={comment.data} />
-    </BottomBannerContainer>
-  );
-};
 const Comment = ({ comment }) => {
   const [showResults, setShowResults] = useState(false);
   const [showButton, setShowButton] = useState(false);

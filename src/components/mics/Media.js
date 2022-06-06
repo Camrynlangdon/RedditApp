@@ -14,7 +14,7 @@ const isImage = (image) => {
     image.slice(-3) === 'jpeg' ||
     image.slice(-3) === 'gif' ||
     image.slice(-3) === 'png' ||
-    image.includes('imgur')
+    (image.includes('imgur') && !image.slice(-4) === 'gifv')
   ) {
     return true;
   }

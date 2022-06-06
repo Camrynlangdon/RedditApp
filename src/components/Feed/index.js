@@ -136,16 +136,19 @@ const Feed = () => {
     setIsLoading(true);
     setPrevSubreddit(currentSubreddit);
     setCurrentSubreddit(subreddit);
+    setCurrentSelectedPost({ currentSelectedPost: null, key: null });
   };
 
   const changeCurrentSortType = (type) => {
     setIsLoading(true);
     setCurrentSearchType(type);
+    setCurrentSelectedPost({ currentSelectedPost: null, key: null });
   };
 
   const changeCurrentSortTime = (time) => {
     setIsLoading(true);
     setCurrentSortTime(time);
+    setCurrentSelectedPost({ currentSelectedPost: null, key: null });
   };
 
   const PostBody = ({ post, hideWindow }) => {
