@@ -146,7 +146,6 @@ const Comment = ({ comment, postAuthor }) => {
   const b = comment.backgroundColor.blue;
   let isOP = false;
   if (comment.data.author === postAuthor) isOP = true;
-  console.log(comment.data.author === postAuthor, comment.data.author, postAuthor);
 
   if (comment.data.author === postAuthor) {
     return (
@@ -180,38 +179,44 @@ const Comment = ({ comment, postAuthor }) => {
 };
 
 const CommentLayout = ({ comment, showButton, showResults, childComments, postAuthor, setShowResults, isOP }) => {
-  let borderColor = 'none';
-  let OPFrame = styled.div``;
-  if (isOP) {
-    borderColor = '#48C123';
-    OPFrame = styled.div`
+  let preFix = '';
+
+  let SpecialFrame = styled.div``;
+  if (isOP || comment.data.score > 7500) {
+    let frameColor = 'none';
+    if (isOP) {
+      frameColor = '#97CCEF';
+      preFix = 'OP:';
+    }
+    if (comment.data.score > 7500) frameColor = 'gold';
+    SpecialFrame = styled.div`
       padding-bottom: 5px;
       margin-top: 5px;
       border: solid;
 
       border-width: 1px;
-      border-color: ${({ Color = borderColor }) => Color};
+      border-color: ${({ Color = frameColor }) => Color};
       border-radius: 3px;
 
       background-color: rgb(90, 90, 90);
-      box-shadow: 1px -1px 15px 0px ${({ Color = borderColor }) => Color};
+      box-shadow: 1px -1px 15px 0px ${({ Color = frameColor }) => Color};
     `;
   }
 
   return (
     <CommentDiv>
-      <OPFrame>
+      <SpecialFrame>
         <Post>
           <Body>
             <Text variant="user" fontSize="12px">
-              {comment.data.author}
+              {preFix} {comment.data.author}
             </Text>
             <Markdown text={comment.data.body} />
           </Body>
 
           <BottomBanner comment={comment} showButton={showButton} showResults={showResults} setShowResults={setShowResults} />
         </Post>
-      </OPFrame>
+      </SpecialFrame>
 
       {showResults && <CommentThread comments={childComments} parentComment={comment} postAuthor={postAuthor} />}
     </CommentDiv>
