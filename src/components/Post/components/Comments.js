@@ -69,6 +69,7 @@ const BottomBannerContainer = styled.div`
   align-items: center;
   margin-top: 6px;
   padding-right: 10px;
+
   border-top: 1px solid;
   border-color: rgba(40, 40, 40);
 `;
@@ -88,7 +89,7 @@ const BottomBanner = ({ comment, showButton, showResults, setShowResults }) => {
   );
 };
 
-const CommentThread = ({ comments, parentComment }) => {
+const CommentThread = ({ comments, parentComment, postAuthor }) => {
   if (comments === undefined) return null;
   return (
     <div style={{ maxWidth: '100%' }}>
@@ -121,13 +122,13 @@ const CommentThread = ({ comments, parentComment }) => {
           };
         }
 
-        return <Comment comment={comment} key={key} />;
+        return <Comment comment={comment} key={key} postAuthor={postAuthor} />;
       })}
     </div>
   );
 };
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, postAuthor }) => {
   const [showResults, setShowResults] = useState(false);
   const [showButton, setShowButton] = useState(false);
   let childComments = comment.data.replies?.data?.children;
@@ -143,33 +144,87 @@ const Comment = ({ comment }) => {
   const r = comment.backgroundColor.red;
   const g = comment.backgroundColor.green;
   const b = comment.backgroundColor.blue;
+  let isOP = false;
+  if (comment.data.author === postAuthor) isOP = true;
+  console.log(comment.data.author === postAuthor, comment.data.author, postAuthor);
+
+  if (comment.data.author === postAuthor) {
+    return (
+      <CommentLayout
+        comment={comment}
+        showButton={showButton}
+        showResults={showResults}
+        childComments={childComments}
+        postAuthor={postAuthor}
+        rgb={{ r, g, b }}
+        setShowResults={setShowResults}
+        isOP={isOP}
+      />
+    );
+  } else {
+    return (
+      <CommentSection style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}>
+        <CommentLayout
+          comment={comment}
+          showButton={showButton}
+          showResults={showResults}
+          childComments={childComments}
+          postAuthor={postAuthor}
+          rgb={{ r, g, b }}
+          setShowResults={setShowResults}
+          isOP={isOP}
+        />
+      </CommentSection>
+    );
+  }
+};
+
+const CommentLayout = ({ comment, showButton, showResults, childComments, postAuthor, setShowResults, isOP }) => {
+  let borderColor = 'none';
+  let OPFrame = styled.div``;
+  if (isOP) {
+    borderColor = '#48C123';
+    OPFrame = styled.div`
+      padding-bottom: 5px;
+      margin-top: 5px;
+      border: solid;
+
+      border-width: 1px;
+      border-color: ${({ Color = borderColor }) => Color};
+      border-radius: 3px;
+
+      background-color: rgb(90, 90, 90);
+      box-shadow: 1px -1px 15px 0px ${({ Color = borderColor }) => Color};
+    `;
+  }
 
   return (
     <CommentDiv>
-      <CommentSection style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}>
+      <OPFrame>
         <Post>
           <Body>
             <Text variant="user" fontSize="12px">
               {comment.data.author}
             </Text>
-            {/* <Text fontSize="13px">{comment.data.body}</Text> */}
             <Markdown text={comment.data.body} />
           </Body>
+
           <BottomBanner comment={comment} showButton={showButton} showResults={showResults} setShowResults={setShowResults} />
         </Post>
-        {showResults && <CommentThread comments={childComments} parentComment={comment} />}
-      </CommentSection>
+      </OPFrame>
+
+      {showResults && <CommentThread comments={childComments} parentComment={comment} postAuthor={postAuthor} />}
     </CommentDiv>
   );
 };
 
 const Comments = ({ post }) => {
   const comments = post.comments;
-
+  const postAuthor = post.author;
   if (!comments || !comments.length) return '...loading';
   return (
     <MainContainer>
-      <CommentThread comments={comments} />
+      <CommentThread comments={comments} postAuthor={postAuthor} />
     </MainContainer>
   );
 };
