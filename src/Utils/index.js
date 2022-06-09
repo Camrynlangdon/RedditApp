@@ -12,7 +12,7 @@ const getData = () => {
       const responseJson = await response.json();
       if (responseJson.error === 404 || responseJson.message === 'Not Found' || responseJson.error === 302) return;
 
-      //console.log({ responseJson });
+      console.log({ responseJson });
       const cleanedData = await Promise.all(
         responseJson.data.children.map(async (child) => {
           const postData = child.data;
@@ -30,6 +30,7 @@ const getData = () => {
             media: postData.media,
             over_18: postData.over_18,
             all_awardings: postData.all_awardings,
+            created_utc: postData.created_utc,
           };
         })
       );

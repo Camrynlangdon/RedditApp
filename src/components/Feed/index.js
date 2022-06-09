@@ -11,6 +11,7 @@ import Media from '../mics/Media';
 import NSFWToggleButton from '../mics/NSFWToggle';
 import Awardings from '../mics/Awardings';
 import Link from '../mics/Link';
+import TimeStamp from '../mics/TimeStamp';
 
 const Container = styled.div`
   display: flex;
@@ -167,15 +168,21 @@ const Feed = () => {
     return (
       <Post>
         <PostData>
-          <Box display="inline-flex" alignItems="start" flexDirection="column">
+          <Box display="inline-flex" alignItems="start" flexDirection="column" w="100%">
             {!currentSubreddit && (
               <SubredditButton onClick={() => ChangeSubreddit(post.subreddit)}>
-                <Text wordBreak="none" fontSize="10px">
+                <Text wordBreak="none" fontSize="13px">
                   r/{post.subreddit}
                 </Text>
               </SubredditButton>
             )}
-            <Text variant="user">u/{post?.author}</Text>
+            <Box display="flex" flexDirection="row">
+              <Text variant="user">u/{post?.author}</Text>
+              <Text paddingLeft="5px" paddingRight="5px" variant="user">
+                •
+              </Text>
+              <TimeStamp msTime={post.created_utc} />
+            </Box>
           </Box>
 
           <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}></EmptyBox>
