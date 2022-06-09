@@ -190,7 +190,12 @@ const Feed = () => {
 
         <Awardings awards={post.all_awardings} />
         <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}>
-          <Text w="100%" padding="0px 15px 5px 15px" onClick={() => setCurrentSelectedPostAndKey(post)}>
+          <Text
+            w="100%"
+            padding="0px 15px 5px 15px"
+            textShadow="3px 3px 4px black"
+            onClick={() => setCurrentSelectedPostAndKey(post)}
+          >
             {post.title}
           </Text>
 

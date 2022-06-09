@@ -6,6 +6,7 @@ import Media from '../mics/Media';
 import Awardings from '../mics/Awardings';
 import Markdown from '../mics/markdown';
 import Link from '../mics/Link';
+import TimeStamp from '../mics/TimeStamp';
 
 const Container = styled.div`
   display: flex;
@@ -91,10 +92,16 @@ const RedditBrowser = ({ post, hideWindow }) => {
       >
         <Container>
           <PostContainer>
-            <Text fontSize="10px">r/{post.subreddit}</Text>
-            <Text variant="user">{post?.author}</Text>
             <Awardings awards={post.all_awardings} style={{ fontWeight: 'bold' }} />
-            <Markdown text={post.title} fontSize="17px" />
+            <Box display="flex" flexDirection="row">
+              <Text variant="user">u/{post?.author}</Text>
+              <Text paddingLeft="5px" paddingRight="5px" variant="user">
+                •
+              </Text>
+              <TimeStamp msTime={post.created_utc} />
+            </Box>
+
+            <Markdown text={post.title} fontSize="17px" padding="0px 15px 5px 15px" />
             {post.image && <Link href={post.image} text={post.image} />}
             {post.selftext && <Markdown text={post.selftext} fontSize="12px" style={{ paddingTop: '10px' }} />}
           </PostContainer>

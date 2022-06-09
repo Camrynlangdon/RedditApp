@@ -12,7 +12,7 @@ const getData = () => {
       const responseJson = await response.json();
       if (responseJson.error === 404 || responseJson.message === 'Not Found' || responseJson.error === 302) return;
 
-      console.log({ responseJson });
+      //console.log({ responseJson });
       const cleanedData = await Promise.all(
         responseJson.data.children.map(async (child) => {
           const postData = child.data;
