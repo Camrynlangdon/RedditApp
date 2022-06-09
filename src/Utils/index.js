@@ -30,6 +30,7 @@ const getData = () => {
             media: postData.media,
             over_18: postData.over_18,
             all_awardings: postData.all_awardings,
+            created_utc: postData.created_utc,
           };
         })
       );

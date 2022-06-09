@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Text } from '@chakra-ui/react';
+import { Text, Box } from '@chakra-ui/react';
 import UpVoteDownVote from '../../mics/UpVoteDownVote';
-
 import Markdown from '../../mics/markdown';
+import TimeStamp from '../../mics/TimeStamp';
 
 const MainContainer = styled.div`
   display: flex;
@@ -177,7 +177,7 @@ const Comment = ({ comment, postAuthor }) => {
     );
   }
 };
-
+//Hi Robert, thank you for the opportunity! My apologies but I can not seem to find the option for 'ReactJS Frontend Engineer' inside the US.
 const CommentLayout = ({ comment, showButton, showResults, childComments, postAuthor, setShowResults, isOP }) => {
   let preFix = '';
 
@@ -208,9 +208,13 @@ const CommentLayout = ({ comment, showButton, showResults, childComments, postAu
       <SpecialFrame>
         <Post>
           <Body>
-            <Text variant="user" fontSize="12px">
-              {preFix} {comment.data.author}
-            </Text>
+            <Box display="flex" flexDirection="row">
+              <Text variant="user">u/{comment.data?.author}</Text>
+              <Text paddingLeft="5px" paddingRight="5px" variant="user">
+                •
+              </Text>
+              <TimeStamp msTime={comment.data.created_utc} />
+            </Box>
             <Markdown text={comment.data.body} />
           </Body>
 
