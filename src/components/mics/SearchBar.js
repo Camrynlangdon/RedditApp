@@ -122,9 +122,7 @@ const SearchBar = ({ handleSearch, userSettings }) => {
         return null;
       }
     };
-    console.log({ results });
     const results = await fetch();
-    console.log({ results });
     setUserSearchResults(results);
   };
 
@@ -217,16 +215,24 @@ const SearchBar = ({ handleSearch, userSettings }) => {
 
                 {(() => {
                   const subredditResults = searchResults?.names;
-                  console.log(userSearchResults);
-                  const UserSearchResults = userSearchResults?.names;
                   if (subredditResults)
                     return (
                       <div>
                         {subredditResults.map((option, index) => {
                           return <DropdownItems key={index} value={option} searchType={searchType.subredditName} />;
                         })}
+                      </div>
+                    );
+                })()}
+                {(() => {
+                  console.log({ userSearchResults });
+                  const UserSearchResults = userSearchResults?.data?.children;
+                  console.log({ UserSearchResults });
+                  if (UserSearchResults === undefined) return null;
+                  if (Object.keys(UserSearchResults).length > 1)
+                    return (
+                      <div>
                         {UserSearchResults.map((option, index) => {
-                          console.log({ option });
                           return <DropdownItems key={index} value={option} searchType={searchType.user} />;
                         })}
                       </div>

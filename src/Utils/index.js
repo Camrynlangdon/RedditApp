@@ -97,7 +97,7 @@ const getData = () => {
 
       if (!response.ok || !response || response.error === 404) return;
       const responseJson = await response.json();
-      //console.log({ responseJson });
+      console.log({ responseJson });
       if (responseJson.message === 'Not Found' || responseJson.error === 404) return;
 
       return {
