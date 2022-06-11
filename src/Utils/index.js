@@ -1,8 +1,11 @@
 const getData = () => {
-  const getSubRedditFeed = async (Subreddit, SortType, currentSortTime) => {
+  const getSubRedditFeed = async (Subreddit, SortType, currentSortTime, currentSubType) => {
     let response;
+    console.log({ Subreddit, SortType, currentSubType });
     try {
-      if (Subreddit) {
+      if (currentSubType === searchType.user) {
+        response = await fetch(`https://www.reddit.com/user/${Subreddit}/.json?sort=${SortType}&t=${currentSortTime}`);
+      } else if (Subreddit && currentSubType !== searchType.user) {
         response = await fetch(`https://www.reddit.com/r/${Subreddit}/${SortType}/.json?t=${currentSortTime}`);
       } else {
         response = await fetch(`https://www.reddit.com/${SortType}/.json?t=${currentSortTime}`);
@@ -12,7 +15,7 @@ const getData = () => {
       const responseJson = await response.json();
       if (responseJson.error === 404 || responseJson.message === 'Not Found' || responseJson.error === 302) return;
 
-      //console.log({ responseJson });
+      console.log({ responseJson });
       const cleanedData = await Promise.all(
         responseJson.data.children.map(async (child) => {
           const postData = child.data;
@@ -97,7 +100,7 @@ const getData = () => {
 
       if (!response.ok || !response || response.error === 404) return;
       const responseJson = await response.json();
-      console.log({ responseJson });
+      //console.log({ responseJson });
       if (responseJson.message === 'Not Found' || responseJson.error === 404) return;
 
       return {

@@ -137,16 +137,17 @@ const SearchBar = ({ handleSearch, userSettings }) => {
     SearchUsers(value);
   };
 
-  const select = (value) => {
-    if (value !== null) {
-      handleSearch(value);
+  const select = (value, SearchType) => {
+    if (value !== null && value !== undefined) {
+      console.log(value, SearchType);
+      handleSearch({ value, SearchType });
     }
     setExpanded(false);
   };
 
   const DropdownItems = ({ value, SearchType }) => {
     return (
-      <Button value={value} onClick={(event) => select(event.target.value)}>
+      <Button value={value} onClick={() => select(value, SearchType)}>
         <Box>
           <Text paddingLeft="20px">
             {(() => {
@@ -219,21 +220,19 @@ const SearchBar = ({ handleSearch, userSettings }) => {
                     return (
                       <div>
                         {subredditResults.map((option, index) => {
-                          return <DropdownItems key={index} value={option} searchType={searchType.subredditName} />;
+                          return <DropdownItems key={index} value={option} SearchType={searchType.subredditName} />;
                         })}
                       </div>
                     );
                 })()}
                 {(() => {
-                  console.log({ userSearchResults });
-                  const UserSearchResults = userSearchResults?.data?.children;
-                  console.log({ UserSearchResults });
-                  if (UserSearchResults === undefined) return null;
-                  if (Object.keys(UserSearchResults).length > 1)
+                  const results = userSearchResults?.data?.children;
+                  if (results === undefined) return null;
+                  if (Object.keys(results).length > 1)
                     return (
                       <div>
-                        {UserSearchResults.map((option, index) => {
-                          return <DropdownItems key={index} value={option} searchType={searchType.user} />;
+                        {results.map((option, index) => {
+                          return <DropdownItems key={index} value={option.data.name} SearchType={searchType.user} />;
                         })}
                       </div>
                     );

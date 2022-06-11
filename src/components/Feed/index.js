@@ -100,8 +100,8 @@ const SubredditButton = styled.button`
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const [currentSubreddit, setCurrentSubreddit] = useState();
-  const [prevSubreddit, setPrevSubreddit] = useState(null);
+  const [{ currentSubreddit, currentSubType }, setCurrentSubreddit] = useState({ currentSubreddit: null, currentSubType: null });
+  const [{ prevSubreddit, prevSubType }, setPrevSubreddit] = useState({ prevSubreddit: null, prevSubType: null });
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
   const [SavedFeed, setSavedFeed] = useState(null);
@@ -115,7 +115,7 @@ const Feed = () => {
     const fetch = async () => {
       try {
         const post = await (() => {
-          return getSubRedditFeed(currentSubreddit, currentSearchType, currentSortTime);
+          return getSubRedditFeed(currentSubreddit, currentSearchType, currentSortTime, currentSubType);
         })();
         setPosts(post.data);
         setSavedFeed(() => {
@@ -124,7 +124,7 @@ const Feed = () => {
         setSearchError('');
         setIsLoading(false);
       } catch (error) {
-        setCurrentSubreddit(prevSubreddit);
+        setCurrentSubreddit({ currentSubreddit: prevSubreddit, currentSubTypeP: prevSubType });
         console.log('Could not fetch subreddit');
         setSearchError('no results found!');
         return null;
@@ -133,10 +133,11 @@ const Feed = () => {
     fetch();
   }, [currentSubreddit, currentSearchType, showNSFW, currentSortTime]);
 
-  const ChangeSubreddit = (subreddit) => {
+  const ChangeSubreddit = (subreddit, SearchType) => {
+    //console.log(subreddit, SearchType);
     setIsLoading(true);
-    setPrevSubreddit(currentSubreddit);
-    setCurrentSubreddit(subreddit);
+    setPrevSubreddit({ prevSubreddit: currentSubreddit, prevSubType: currentSubType });
+    setCurrentSubreddit({ currentSubreddit: subreddit, currentSubType: SearchType });
     setCurrentSelectedPost({ currentSelectedPost: null, key: null });
   };
 
@@ -170,7 +171,7 @@ const Feed = () => {
         <PostData>
           <Box display="inline-flex" alignItems="start" flexDirection="column" w="100%">
             {!currentSubreddit && (
-              <SubredditButton onClick={() => ChangeSubreddit(post.subreddit)}>
+              <SubredditButton onClick={() => ChangeSubreddit(post.subreddit, null)}>
                 <Text wordBreak="none" fontSize="13px">
                   r/{post.subreddit}
                 </Text>
@@ -246,7 +247,10 @@ const Feed = () => {
       return (
         <Box bg="primary" paddingTop="30px">
           <Container>
-            <Header userSettings={{ showNSFW: showNSFW }} handleSearch={(value) => ChangeSubreddit(value)} />
+            <Header
+              userSettings={{ showNSFW: showNSFW }}
+              handleSearch={(value) => ChangeSubreddit(value.value, value.SearchType)}
+            />
 
             {(() => {
               if (SavedFeed) {
