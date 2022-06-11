@@ -97,9 +97,10 @@ const SearchBar = ({ handleSearch, userSettings }) => {
   const [expanded, setExpanded] = useState(true);
 
   const [searchResults, setSearchResults] = useState(null);
+  const [userSearchResults, setUserSearchResults] = useState(null);
   const { search, searchType } = getData();
 
-  const fetchSearch = async (value) => {
+  const SearchSubreddits = async (value) => {
     const fetch = async () => {
       try {
         return await search(value, searchType.subredditName, userSettings.showNSFW);
@@ -112,13 +113,30 @@ const SearchBar = ({ handleSearch, userSettings }) => {
     setSearchResults(results);
   };
 
+  const SearchUsers = async (value) => {
+    const fetch = async () => {
+      try {
+        return await search(value, searchType.user);
+      } catch (error) {
+        console.log('Could not fetch search results', error);
+        return null;
+      }
+    };
+    console.log({ results });
+    const results = await fetch();
+    console.log({ results });
+    setUserSearchResults(results);
+  };
+
   useEffect(() => {
-    fetchSearch(searchValue);
+    SearchSubreddits(searchValue);
+    SearchUsers(searchValue);
   }, [userSettings.showNSFW]);
 
   const searchOnChange = (value) => {
     setSearchValue(value);
-    fetchSearch(value);
+    SearchSubreddits(value);
+    SearchUsers(value);
   };
 
   const select = (value) => {
@@ -128,11 +146,20 @@ const SearchBar = ({ handleSearch, userSettings }) => {
     setExpanded(false);
   };
 
-  const DropdownItems = ({ value }) => {
+  const DropdownItems = ({ value, SearchType }) => {
     return (
       <Button value={value} onClick={(event) => select(event.target.value)}>
         <Box>
-          <Text paddingLeft="20px">r/{value}</Text>
+          <Text paddingLeft="20px">
+            {(() => {
+              if (SearchType === searchType.user) {
+                return 'u/';
+              } else {
+                return 'r/';
+              }
+            })()}
+            {value}
+          </Text>
         </Box>
       </Button>
     );
@@ -189,12 +216,18 @@ const SearchBar = ({ handleSearch, userSettings }) => {
                 </Button>
 
                 {(() => {
-                  const results = searchResults?.names;
-                  if (results)
+                  const subredditResults = searchResults?.names;
+                  console.log(userSearchResults);
+                  const UserSearchResults = userSearchResults?.names;
+                  if (subredditResults)
                     return (
                       <div>
-                        {results.map((option, index) => {
-                          return <DropdownItems key={index} value={option} />;
+                        {subredditResults.map((option, index) => {
+                          return <DropdownItems key={index} value={option} searchType={searchType.subredditName} />;
+                        })}
+                        {UserSearchResults.map((option, index) => {
+                          console.log({ option });
+                          return <DropdownItems key={index} value={option} searchType={searchType.user} />;
                         })}
                       </div>
                     );

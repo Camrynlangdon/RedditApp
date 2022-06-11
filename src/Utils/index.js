@@ -59,11 +59,22 @@ const getData = () => {
     }
   };
 
-  //https://www.reddit.com/subreddits/search.json?q=$a&include_over_18=on
+  const getUserFeed = async (User, SortType, currentSortTime) => {
+    try {
+      const response = await fetch(`https://www.reddit.com/user/${User}/${SortType}/.json?t=${currentSortTime}`);
+      if (!response.ok) return;
+      const responseJson = await response.json();
+      const data = await responseJson[1].data.children;
+      return data;
+    } catch (error) {
+      console.log('Post meta could not be fetched');
+    }
+  };
 
   const search = async (query, searchPref, NSFW) => {
     let response;
     let requestNSFW = 'off';
+
     if (NSFW) {
       requestNSFW = 'on';
     }
@@ -77,13 +88,16 @@ const getData = () => {
         case searchType.subredditStartsWith:
           response = await fetch(`https://www.reddit.com/subreddits/search.json?q=${query}&include_over_18=${requestNSFW}`);
           break;
+        case searchType.user:
+          response = await fetch(`https://www.reddit.com/users/search.json?q=${query}`);
+          break;
         default:
           return;
       }
 
       if (!response.ok || !response || response.error === 404) return;
       const responseJson = await response.json();
-
+      //console.log({ responseJson });
       if (responseJson.message === 'Not Found' || responseJson.error === 404) return;
 
       return {
@@ -129,6 +143,7 @@ const getData = () => {
     SortTimeFrame,
     search,
     searchType,
+    getUserFeed,
   };
 };
 
