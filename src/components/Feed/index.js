@@ -210,6 +210,7 @@ const Feed = () => {
   };
 
   const FeedMap = () => {
+    console.log(posts);
     return (
       <FeedContainer>
         <SearchError>{searchError}</SearchError>

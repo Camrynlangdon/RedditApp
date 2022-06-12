@@ -93,7 +93,6 @@ const YouTube = ({ post }) => {
 };
 
 const Media = ({ post }) => {
-  console.log({ post });
   if (post.image) {
     if (isImage(post.image)) {
       return <Image post={post} />;
