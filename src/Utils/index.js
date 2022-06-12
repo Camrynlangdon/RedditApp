@@ -5,7 +5,6 @@ const getData = () => {
     try {
       if (currentSubType === searchType.user) {
         response = await fetch(`https://www.reddit.com/user/${Subreddit}/.json?sort=${SortType}&t=${currentSortTime}`);
-        console.log('test', response);
       } else if (Subreddit && currentSubType !== searchType.user) {
         response = await fetch(`https://www.reddit.com/r/${Subreddit}/${SortType}/.json?t=${currentSortTime}`);
       } else {
@@ -15,7 +14,6 @@ const getData = () => {
       if (!response.ok || !response) return;
       const responseJson = await response.json();
       if (responseJson.error === 404 || responseJson.message === 'Not Found' || responseJson.error === 302) return;
-      console.log(responseJson);
       if (responseJson.data.children === null || responseJson.data.children === undefined) return null;
       const cleanedData = await Promise.all(
         responseJson.data.children.map(async (child) => {
@@ -31,7 +29,7 @@ const getData = () => {
               url: `https://www.reddit.com/${postData.permalink}`,
               image: postData.url,
               score: postData.score,
-              comments: comments,
+              //comments: comments,
               num_comments: postData.num_comments,
               subreddit: postData.subreddit,
               media: postData.media,
@@ -61,13 +59,6 @@ const getData = () => {
         })
       );
       console.log({ cleanedData });
-      // if (cleanedData === undefined || cleanedData === null || cleanedData.length === 0) {
-      //   return {
-      //     data: cleanedData,
-      //     error: null,
-      //   };
-      // };
-
       return {
         data: cleanedData,
         error: null,
