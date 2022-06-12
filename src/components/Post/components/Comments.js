@@ -74,6 +74,14 @@ const BottomBannerContainer = styled.div`
   border-color: rgba(40, 40, 40);
 `;
 
+const UserButton = styled.button`
+  text-shadow: 2px 2px 3px black;
+  :hover {
+    margin-left: -2px;
+    font-weight: bold;
+  }
+`;
+
 const BottomBanner = ({ comment, showButton, showResults, setShowResults }) => {
   return (
     <BottomBannerContainer>
@@ -209,7 +217,9 @@ const CommentLayout = ({ comment, showButton, showResults, childComments, postAu
         <Post>
           <Body>
             <Box display="flex" flexDirection="row">
-              <Text variant="user">u/{comment.data?.author}</Text>
+              <UserButton>
+                <Text variant="user">u/{comment.data?.author}</Text>
+              </UserButton>
               <Text paddingLeft="5px" paddingRight="5px" variant="user">
                 •
               </Text>

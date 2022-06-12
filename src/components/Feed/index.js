@@ -98,6 +98,14 @@ const SubredditButton = styled.button`
   }
 `;
 
+const UserButton = styled.button`
+  text-shadow: 2px 2px 3px black;
+  :hover {
+    margin-left: -2px;
+    font-weight: bold;
+  }
+`;
+
 const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [{ currentSubreddit, currentSubType }, setCurrentSubreddit] = useState({ currentSubreddit: null, currentSubType: null });
@@ -105,13 +113,14 @@ const Feed = () => {
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
   const [SavedFeed, setSavedFeed] = useState(null);
-  const { getSubRedditFeed, SortType, SortTimeFrame } = getData();
+  const { getSubRedditFeed, SortType, SortTimeFrame, searchType } = getData();
   const [currentSearchType, setCurrentSearchType] = useState(SortType.top);
   const [currentSortTime, setCurrentSortTime] = useState(SortTimeFrame.day);
   const [isLoading, setIsLoading] = useState(true);
   const [showNSFW, setShowNSFW] = useState(false);
 
   useEffect(() => {
+    console.log('useEffect');
     const fetch = async () => {
       try {
         const post = await (() => {
@@ -177,7 +186,11 @@ const Feed = () => {
               </SubredditButton>
             )}
             <Box display="flex" flexDirection="row">
-              <Text variant="user">u/{post?.author}</Text>
+              <UserButton>
+                <Text variant="user" onClick={() => ChangeSubreddit(post?.author, searchType.user)}>
+                  u/{post?.author}
+                </Text>
+              </UserButton>
               <Text paddingLeft="5px" paddingRight="5px" variant="user">
                 •
               </Text>
@@ -209,7 +222,6 @@ const Feed = () => {
   };
 
   const FeedMap = () => {
-    console.log('test Feedmap', posts);
     return (
       <FeedContainer>
         <SearchError>{searchError}</SearchError>
@@ -261,21 +273,7 @@ const Feed = () => {
               userSettings={{ showNSFW: showNSFW }}
               handleSearch={(value) => ChangeSubreddit(value.value, value.SearchType)}
             />
-
-            {(() => {
-              if (SavedFeed) {
-                return (
-                  <div>
-                    <SavedFeed />
-                    {key && window.scrollTo(0, key)}
-                  </div>
-                );
-              } else {
-                setSavedFeed(() => {
-                  return FeedMap;
-                });
-              }
-            })()}
+            <FeedMap />
           </Container>
         </Box>
       );

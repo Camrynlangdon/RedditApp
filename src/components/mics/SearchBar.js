@@ -203,7 +203,7 @@ const SearchBar = ({ handleSearch, userSettings }) => {
           if (searchValue && expanded) {
             return (
               <SearchBaDropdown onBlur={() => setExpanded(false)}>
-                <Button value={searchValue} onClick={(event) => handleSearch(event.target.value)}>
+                <Button value={searchValue} onClick={(event) => handleSearch(event.target.value, null)}>
                   <FontAwesomeIcon
                     icon={faSearch}
                     color="white"
@@ -232,6 +232,7 @@ const SearchBar = ({ handleSearch, userSettings }) => {
                     return (
                       <div>
                         {results.map((option, index) => {
+                          if (index >= 5) return null;
                           return <DropdownItems key={index} value={option.data.name} SearchType={searchType.user} />;
                         })}
                       </div>
