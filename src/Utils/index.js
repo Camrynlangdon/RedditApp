@@ -1,9 +1,11 @@
 const getData = () => {
   const getSubRedditFeed = async (Subreddit, SortType, currentSortTime, currentSubType) => {
     let response;
+    console.log({ Subreddit }, { SortType }, { currentSortTime }, { currentSubType });
     try {
       if (currentSubType === searchType.user) {
         response = await fetch(`https://www.reddit.com/user/${Subreddit}/.json?sort=${SortType}&t=${currentSortTime}`);
+        console.log('test', response);
       } else if (Subreddit && currentSubType !== searchType.user) {
         response = await fetch(`https://www.reddit.com/r/${Subreddit}/${SortType}/.json?t=${currentSortTime}`);
       } else {
@@ -13,21 +15,20 @@ const getData = () => {
       if (!response.ok || !response) return;
       const responseJson = await response.json();
       if (responseJson.error === 404 || responseJson.message === 'Not Found' || responseJson.error === 302) return;
-
+      console.log(responseJson);
+      if (responseJson.data.children === null || responseJson.data.children === undefined) return null;
       const cleanedData = await Promise.all(
         responseJson.data.children.map(async (child) => {
           if (currentSubType === searchType.user) {
             const post = await getPostById(child.data.link_id);
-
             const postData = post.post;
             const comments = post.comments;
-            const url = `https://www.reddit.com/${postData.permalink}`;
-            console.log({ postData }, { comments });
+            console.log({ postData }, { comments }, child.data);
             return {
-              title: postData.body,
+              title: child.data.body,
               selftext: postData.selftext,
               author: postData.author,
-              url: url,
+              url: `https://www.reddit.com/${postData.permalink}`,
               image: postData.url,
               score: postData.score,
               comments: comments,
@@ -60,7 +61,12 @@ const getData = () => {
         })
       );
       console.log({ cleanedData });
-      if (cleanedData === undefined) return;
+      // if (cleanedData === undefined || cleanedData === null || cleanedData.length === 0) {
+      //   return {
+      //     data: cleanedData,
+      //     error: null,
+      //   };
+      // };
 
       return {
         data: cleanedData,

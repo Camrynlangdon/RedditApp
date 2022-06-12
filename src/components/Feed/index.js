@@ -117,7 +117,7 @@ const Feed = () => {
         const post = await (() => {
           return getSubRedditFeed(currentSubreddit, currentSearchType, currentSortTime, currentSubType);
         })();
-        setPosts(post.data);
+        setPosts(post?.data);
         setSavedFeed(() => {
           return null;
         });
@@ -134,7 +134,6 @@ const Feed = () => {
   }, [currentSubreddit, currentSearchType, showNSFW, currentSortTime]);
 
   const ChangeSubreddit = (subreddit, SearchType) => {
-    //console.log(subreddit, SearchType);
     setIsLoading(true);
     setPrevSubreddit({ prevSubreddit: currentSubreddit, prevSubType: currentSubType });
     setCurrentSubreddit({ currentSubreddit: subreddit, currentSubType: SearchType });
@@ -210,7 +209,7 @@ const Feed = () => {
   };
 
   const FeedMap = () => {
-    console.log(posts);
+    console.log('test Feedmap', posts);
     return (
       <FeedContainer>
         <SearchError>{searchError}</SearchError>
@@ -225,24 +224,34 @@ const Feed = () => {
 
           <NSFWToggleButton setShowNSFW={(bool) => setShowNSFW(bool)} isChecked={showNSFW} />
         </TopNav>
-
-        {posts.map((post, key) => {
-          if (post.over_18 && !showNSFW) return null;
-          return (
-            <PostContainer key={key}>
+        {(() => {
+          if (!posts || !posts.length) {
+            return null;
+          } else {
+            return (
               <div>
-                <MainFeed post={post} />
+                {posts.map((post, key) => {
+                  if (post.over_18 && !showNSFW) return null;
+                  return (
+                    <PostContainer key={key}>
+                      <div>
+                        <MainFeed post={post} />
+                      </div>
+                      <BottomBanner post={post} setCurrentSelectedPostAndKey={(value) => setCurrentSelectedPostAndKey(value)} />
+                    </PostContainer>
+                  );
+                })}
               </div>
-              <BottomBanner post={post} setCurrentSelectedPostAndKey={(value) => setCurrentSelectedPostAndKey(value)} />
-            </PostContainer>
-          );
-        })}
+            );
+          }
+        })()}
       </FeedContainer>
     );
   };
 
   if (!currentSelectedPost) {
-    if (!posts || !posts.length || isLoading) {
+    //!posts || !posts.length ||
+    if (isLoading) {
       return <LoadingScreen />;
     } else {
       return (
