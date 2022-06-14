@@ -98,33 +98,42 @@ const SubredditButton = styled.button`
   }
 `;
 
+const UserButton = styled.button`
+  text-shadow: 2px 2px 3px black;
+  :hover {
+    margin-left: -2px;
+    font-weight: bold;
+  }
+`;
+
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const [currentSubreddit, setCurrentSubreddit] = useState();
-  const [prevSubreddit, setPrevSubreddit] = useState(null);
+  const [{ currentSubreddit, currentSubType }, setCurrentSubreddit] = useState({ currentSubreddit: null, currentSubType: null });
+  const [{ prevSubreddit, prevSubType }, setPrevSubreddit] = useState({ prevSubreddit: null, prevSubType: null });
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
   const [SavedFeed, setSavedFeed] = useState(null);
-  const { getSubRedditFeed, SortType, SortTimeFrame } = getData();
+  const { getSubRedditFeed, SortType, SortTimeFrame, searchType } = getData();
   const [currentSearchType, setCurrentSearchType] = useState(SortType.top);
   const [currentSortTime, setCurrentSortTime] = useState(SortTimeFrame.day);
   const [isLoading, setIsLoading] = useState(true);
   const [showNSFW, setShowNSFW] = useState(false);
 
   useEffect(() => {
+    console.log('useEffect');
     const fetch = async () => {
       try {
         const post = await (() => {
-          return getSubRedditFeed(currentSubreddit, currentSearchType, currentSortTime);
+          return getSubRedditFeed(currentSubreddit, currentSearchType, currentSortTime, currentSubType);
         })();
-        setPosts(post.data);
+        setPosts(post?.data);
         setSavedFeed(() => {
           return null;
         });
         setSearchError('');
         setIsLoading(false);
       } catch (error) {
-        setCurrentSubreddit(prevSubreddit);
+        setCurrentSubreddit({ currentSubreddit: prevSubreddit, currentSubTypeP: prevSubType });
         console.log('Could not fetch subreddit');
         setSearchError('no results found!');
         return null;
@@ -133,10 +142,10 @@ const Feed = () => {
     fetch();
   }, [currentSubreddit, currentSearchType, showNSFW, currentSortTime]);
 
-  const ChangeSubreddit = (subreddit) => {
+  const ChangeSubreddit = (subreddit, SearchType) => {
     setIsLoading(true);
-    setPrevSubreddit(currentSubreddit);
-    setCurrentSubreddit(subreddit);
+    setPrevSubreddit({ prevSubreddit: currentSubreddit, prevSubType: currentSubType });
+    setCurrentSubreddit({ currentSubreddit: subreddit, currentSubType: SearchType });
     setCurrentSelectedPost({ currentSelectedPost: null, key: null });
   };
 
@@ -170,14 +179,18 @@ const Feed = () => {
         <PostData>
           <Box display="inline-flex" alignItems="start" flexDirection="column" w="100%">
             {!currentSubreddit && (
-              <SubredditButton onClick={() => ChangeSubreddit(post.subreddit)}>
+              <SubredditButton onClick={() => ChangeSubreddit(post.subreddit, null)}>
                 <Text wordBreak="none" fontSize="13px">
                   r/{post.subreddit}
                 </Text>
               </SubredditButton>
             )}
             <Box display="flex" flexDirection="row">
-              <Text variant="user">u/{post?.author}</Text>
+              <UserButton>
+                <Text variant="user" onClick={() => ChangeSubreddit(post?.author, searchType.user)}>
+                  u/{post?.author}
+                </Text>
+              </UserButton>
               <Text paddingLeft="5px" paddingRight="5px" variant="user">
                 •
               </Text>
@@ -223,45 +236,44 @@ const Feed = () => {
 
           <NSFWToggleButton setShowNSFW={(bool) => setShowNSFW(bool)} isChecked={showNSFW} />
         </TopNav>
-
-        {posts.map((post, key) => {
-          if (post.over_18 && !showNSFW) return null;
-          return (
-            <PostContainer key={key}>
+        {(() => {
+          if (!posts || !posts.length) {
+            return null;
+          } else {
+            return (
               <div>
-                <MainFeed post={post} />
+                {posts.map((post, key) => {
+                  if (post.over_18 && !showNSFW) return null;
+                  return (
+                    <PostContainer key={key}>
+                      <div>
+                        <MainFeed post={post} />
+                      </div>
+                      <BottomBanner post={post} setCurrentSelectedPostAndKey={(value) => setCurrentSelectedPostAndKey(value)} />
+                    </PostContainer>
+                  );
+                })}
               </div>
-              <BottomBanner post={post} setCurrentSelectedPostAndKey={(value) => setCurrentSelectedPostAndKey(value)} />
-            </PostContainer>
-          );
-        })}
+            );
+          }
+        })()}
       </FeedContainer>
     );
   };
 
   if (!currentSelectedPost) {
-    if (!posts || !posts.length || isLoading) {
+    //!posts || !posts.length ||
+    if (isLoading) {
       return <LoadingScreen />;
     } else {
       return (
         <Box bg="primary" paddingTop="30px">
           <Container>
-            <Header userSettings={{ showNSFW: showNSFW }} handleSearch={(value) => ChangeSubreddit(value)} />
-
-            {(() => {
-              if (SavedFeed) {
-                return (
-                  <div>
-                    <SavedFeed />
-                    {key && window.scrollTo(0, key)}
-                  </div>
-                );
-              } else {
-                setSavedFeed(() => {
-                  return FeedMap;
-                });
-              }
-            })()}
+            <Header
+              userSettings={{ showNSFW: showNSFW }}
+              handleSearch={(value) => ChangeSubreddit(value.value, value.SearchType)}
+            />
+            <FeedMap />
           </Container>
         </Box>
       );

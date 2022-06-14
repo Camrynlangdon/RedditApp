@@ -97,9 +97,10 @@ const SearchBar = ({ handleSearch, userSettings }) => {
   const [expanded, setExpanded] = useState(true);
 
   const [searchResults, setSearchResults] = useState(null);
+  const [userSearchResults, setUserSearchResults] = useState(null);
   const { search, searchType } = getData();
 
-  const fetchSearch = async (value) => {
+  const SearchSubreddits = async (value) => {
     const fetch = async () => {
       try {
         return await search(value, searchType.subredditName, userSettings.showNSFW);
@@ -112,27 +113,52 @@ const SearchBar = ({ handleSearch, userSettings }) => {
     setSearchResults(results);
   };
 
+  const SearchUsers = async (value) => {
+    const fetch = async () => {
+      try {
+        return await search(value, searchType.user);
+      } catch (error) {
+        console.log('Could not fetch search results', error);
+        return null;
+      }
+    };
+    const results = await fetch();
+    setUserSearchResults(results);
+  };
+
   useEffect(() => {
-    fetchSearch(searchValue);
+    SearchSubreddits(searchValue);
+    SearchUsers(searchValue);
   }, [userSettings.showNSFW]);
 
   const searchOnChange = (value) => {
     setSearchValue(value);
-    fetchSearch(value);
+    SearchSubreddits(value);
+    SearchUsers(value);
   };
 
-  const select = (value) => {
-    if (value !== null) {
-      handleSearch(value);
+  const select = (value, SearchType) => {
+    if (value !== null && value !== undefined) {
+      console.log(value, SearchType);
+      handleSearch({ value, SearchType });
     }
     setExpanded(false);
   };
 
-  const DropdownItems = ({ value }) => {
+  const DropdownItems = ({ value, SearchType }) => {
     return (
-      <Button value={value} onClick={(event) => select(event.target.value)}>
+      <Button value={value} onClick={() => select(value, SearchType)}>
         <Box>
-          <Text paddingLeft="20px">r/{value}</Text>
+          <Text paddingLeft="20px">
+            {(() => {
+              if (SearchType === searchType.user) {
+                return 'u/';
+              } else {
+                return 'r/';
+              }
+            })()}
+            {value}
+          </Text>
         </Box>
       </Button>
     );
@@ -177,7 +203,7 @@ const SearchBar = ({ handleSearch, userSettings }) => {
           if (searchValue && expanded) {
             return (
               <SearchBaDropdown onBlur={() => setExpanded(false)}>
-                <Button value={searchValue} onClick={(event) => handleSearch(event.target.value)}>
+                <Button value={searchValue} onClick={(event) => handleSearch(event.target.value, null)}>
                   <FontAwesomeIcon
                     icon={faSearch}
                     color="white"
@@ -189,12 +215,25 @@ const SearchBar = ({ handleSearch, userSettings }) => {
                 </Button>
 
                 {(() => {
-                  const results = searchResults?.names;
-                  if (results)
+                  const subredditResults = searchResults?.names;
+                  if (subredditResults)
+                    return (
+                      <div>
+                        {subredditResults.map((option, index) => {
+                          return <DropdownItems key={index} value={option} SearchType={searchType.subredditName} />;
+                        })}
+                      </div>
+                    );
+                })()}
+                {(() => {
+                  const results = userSearchResults?.data?.children;
+                  if (results === undefined) return null;
+                  if (Object.keys(results).length > 1)
                     return (
                       <div>
                         {results.map((option, index) => {
-                          return <DropdownItems key={index} value={option} />;
+                          if (index >= 5) return null;
+                          return <DropdownItems key={index} value={option.data.name} SearchType={searchType.user} />;
                         })}
                       </div>
                     );

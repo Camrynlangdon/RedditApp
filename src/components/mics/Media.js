@@ -9,6 +9,7 @@ const ImageContainer = styled.div`
 const Video = styled.video``;
 
 const isImage = (image) => {
+  if (image === undefined) return false;
   if (
     image.slice(-3) === 'jpg' ||
     image.slice(-3) === 'jpeg' ||
@@ -92,16 +93,20 @@ const YouTube = ({ post }) => {
 };
 
 const Media = ({ post }) => {
-  if (isImage(post.image)) {
-    return <Image post={post} />;
-  } else if (post?.media?.reddit_video?.fallback_url) {
-    return <RedditVideo post={post} />;
-  } else if (post.image.slice(-4) === 'gifv') {
-    return <GifV post={post} />;
-  } else if (post.image.includes('gfycat')) {
-    return <GfyCat post={post} />;
-  } else if (post.image.includes('youtube') || post.image.includes('youtu.be')) {
-    return <YouTube post={post} />;
+  if (post.image) {
+    if (isImage(post.image)) {
+      return <Image post={post} />;
+    } else if (post.image.slice(-4) === 'gifv') {
+      return <GifV post={post} />;
+    } else if (post.image.includes('gfycat')) {
+      return <GfyCat post={post} />;
+    } else if (post.image.includes('youtube') || post.image.includes('youtu.be')) {
+      return <YouTube post={post} />;
+    } else {
+      if (post?.media?.reddit_video?.fallback_url) {
+        return <RedditVideo post={post} />;
+      }
+    }
   }
 };
 
