@@ -1,7 +1,6 @@
 const getData = () => {
   const getSubRedditFeed = async (Subreddit, SortType, currentSortTime, currentSubType) => {
     let response;
-    console.log({ Subreddit }, { SortType }, { currentSortTime }, { currentSubType });
     try {
       if (currentSubType === searchType.user) {
         response = await fetch(`https://www.reddit.com/user/${Subreddit}/.json?sort=${SortType}&t=${currentSortTime}`);
@@ -18,10 +17,8 @@ const getData = () => {
       const cleanedData = await Promise.all(
         responseJson.data.children.map(async (child) => {
           if (currentSubType === searchType.user) {
-            console.log('test', child.data.link_id);
             const post = await getPostById(child.data.link_id);
             if (!post) return null;
-            console.log({ post });
             const postData = post.post;
             const comments = post.comments;
             //console.log({ postData }, { comments }, child.data);
@@ -61,7 +58,6 @@ const getData = () => {
           }
         })
       );
-      console.log({ cleanedData });
       return {
         data: cleanedData.filter(Boolean),
         error: null,

@@ -185,7 +185,6 @@ const Comment = ({ comment, postAuthor }) => {
     );
   }
 };
-//Hi Robert, thank you for the opportunity! My apologies but I can not seem to find the option for 'ReactJS Frontend Engineer' inside the US.
 const CommentLayout = ({ comment, showButton, showResults, childComments, postAuthor, setShowResults, isOP }) => {
   let preFix = '';
 
@@ -210,7 +209,6 @@ const CommentLayout = ({ comment, showButton, showResults, childComments, postAu
       box-shadow: 1px -1px 15px 0px ${({ Color = frameColor }) => Color};
     `;
   }
-
   return (
     <CommentDiv>
       <SpecialFrame>
