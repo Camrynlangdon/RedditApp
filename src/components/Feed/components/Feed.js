@@ -42,13 +42,12 @@ const UserButton = styled.button`
 
 const Feed = ({ post, currentSubreddit, ChangeSubreddit, setCurrentSelectedPostAndKey }) => {
   const { searchType } = getData();
-
   return (
     <Post>
       <PostData>
         <Box display="inline-flex" alignItems="start" flexDirection="column" w="100%">
           {!currentSubreddit && (
-            <SubredditButton onClick={() => ChangeSubreddit(post.subreddit, null)}>
+            <SubredditButton onClick={() => ChangeSubreddit({ subreddit: post.subreddit, searchType: null })}>
               <Text wordBreak="none" fontSize="13px">
                 r/{post.subreddit}
               </Text>

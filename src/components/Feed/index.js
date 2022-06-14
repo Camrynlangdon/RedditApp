@@ -18,7 +18,7 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [{ currentSubreddit, currentSubType }, setCurrentSubreddit] = useState({ currentSubreddit: null, currentSubType: null });
   const [{ prevSubreddit, prevSubType }, setPrevSubreddit] = useState({ prevSubreddit: null, prevSubType: null });
-
+  console.log({ posts });
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
   const { getSubRedditFeed, SortType, SortTimeFrame } = getData();
@@ -30,7 +30,6 @@ const Feed = () => {
   const [showNSFW, setShowNSFW] = useState(false);
 
   useEffect(() => {
-    console.log({ currentSubType });
     const fetch = async () => {
       try {
         const post = await (() => {
@@ -94,7 +93,7 @@ const Feed = () => {
               showNSFW={showNSFW}
               setShowNSFW={(bool) => setShowNSFW(bool)}
               currentSubreddit={currentSubreddit}
-              ChangeSubreddit={(value) => ChangeSubreddit(value.author, value.searchType)}
+              ChangeSubreddit={(value) => ChangeSubreddit(value?.author || value?.subreddit, value.searchType)}
               setCurrentSelectedPostAndKey={(value) => setCurrentSelectedPostAndKey(value)}
             />
           </Container>
