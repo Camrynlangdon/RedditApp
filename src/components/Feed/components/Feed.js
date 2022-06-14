@@ -56,7 +56,7 @@ const Feed = ({ post, currentSubreddit, ChangeSubreddit, setCurrentSelectedPostA
           )}
           <Box display="flex" flexDirection="row">
             <UserButton>
-              <Text variant="user" onClick={() => ChangeSubreddit(post?.author, searchType.user)}>
+              <Text variant="user" onClick={() => ChangeSubreddit({ author: post?.author, searchType: searchType.user })}>
                 u/{post?.author}
               </Text>
             </UserButton>

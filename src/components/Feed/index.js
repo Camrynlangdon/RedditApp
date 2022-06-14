@@ -18,15 +18,19 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [{ currentSubreddit, currentSubType }, setCurrentSubreddit] = useState({ currentSubreddit: null, currentSubType: null });
   const [{ prevSubreddit, prevSubType }, setPrevSubreddit] = useState({ prevSubreddit: null, prevSubType: null });
+
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
   const { getSubRedditFeed, SortType, SortTimeFrame } = getData();
+
   const [currentSearchType, setCurrentSearchType] = useState(SortType.top);
   const [currentSortTime, setCurrentSortTime] = useState(SortTimeFrame.day);
+
   const [isLoading, setIsLoading] = useState(true);
   const [showNSFW, setShowNSFW] = useState(false);
 
   useEffect(() => {
+    console.log({ currentSubType });
     const fetch = async () => {
       try {
         const post = await (() => {
@@ -64,14 +68,6 @@ const Feed = () => {
     setCurrentSelectedPost({ currentSelectedPost: null, key: null });
   };
 
-  const PostBody = ({ post, hideWindow }) => {
-    return (
-      <div>
-        <FullPost post={post} hideWindow={(event) => hideWindow(event)} />
-      </div>
-    );
-  };
-
   const setCurrentSelectedPostAndKey = (post) => {
     setCurrentSelectedPost({ currentSelectedPost: post, key: window.pageYOffset });
   };
@@ -98,7 +94,7 @@ const Feed = () => {
               showNSFW={showNSFW}
               setShowNSFW={(bool) => setShowNSFW(bool)}
               currentSubreddit={currentSubreddit}
-              ChangeSubreddit={(value) => ChangeSubreddit(value)}
+              ChangeSubreddit={(value) => ChangeSubreddit(value.author, value.searchType)}
               setCurrentSelectedPostAndKey={(value) => setCurrentSelectedPostAndKey(value)}
             />
           </Container>
@@ -108,12 +104,7 @@ const Feed = () => {
   } else if (currentSelectedPost) {
     return (
       <div>
-        <PostBody
-          post={currentSelectedPost}
-          hideWindow={() => {
-            setCurrentSelectedPost({ currentSelectedPost: null, key: key });
-          }}
-        />
+        <FullPost post={currentSelectedPost} hideWindow={() => setCurrentSelectedPost({ currentSelectedPost: null, key: key })} />
         {key && window.scrollTo(0, 0)}
       </div>
     );
