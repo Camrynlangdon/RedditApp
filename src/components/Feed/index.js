@@ -3,15 +3,9 @@ import styled from 'styled-components';
 import { getData } from '../../Utils';
 import FullPost from '../Post';
 import Header from '../Header';
-import { Box, Text } from '@chakra-ui/react';
-import BottomBanner from './components/BottomBanner';
-import SortTypeDropdown from './components/SortTypeDropdown';
+import { Box } from '@chakra-ui/react';
 import LoadingScreen from '../mics/LoadingScreen';
-import Media from '../mics/Media';
-import NSFWToggleButton from '../mics/NSFWToggle';
-import Awardings from '../mics/Awardings';
-import Link from '../mics/Link';
-import TimeStamp from '../mics/TimeStamp';
+import FeedMap from './components/FeedMap';
 
 const Container = styled.div`
   display: flex;
@@ -20,116 +14,29 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const PostContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-
-  overflow-y: auto;
-  background-color: rgb(35, 35, 35);
-  border: 1px solid;
-  border-color: rgb(80, 80, 80);
-
-  margin-bottom: 15px;
-  color: inherit;
-  font: inherit;
-
-  outline: inherit;
-  @media only screen and (max-width: 614px) {
-     {
-      width: 100%;
-    }
-  }
-  @media only screen and (min-width: 615px) {
-     {
-      max-width: 800px;
-      border-radius: 4px;
-    }
-  }
-`;
-
-const Post = styled.div`
-  width: 100%;
-  padding-top: 8px;
-`;
-
-const PostData = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  padding-left: 15px;
-  padding-right: 15px;
-`;
-
-const TopNav = styled.div`
-  width: 100%;
-  padding: 2px 10px 2px 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin: 25px 0px 15px 0px;
-
-  background-color: rgb(35, 35, 35);
-  border: solid 1px rgb(80, 80, 80);
-  border-radius: 4px;
-`;
-
-const FeedContainer = styled.div`
-  padding-top: 8px;
-`;
-
-const SearchError = styled.p`
-  color: red;
-  margin-top: 3px;
-  margin-left: 5px;
-`;
-
-const EmptyBox = styled.div`
-  min-height: 100%;
-  width: 100%;
-  cursor: pointer;
-`;
-const SubredditButton = styled.button`
-  text-shadow: 3px 3px 3px black;
-  :hover {
-    margin-left: -2px;
-    font-weight: bold;
-  }
-`;
-
-const UserButton = styled.button`
-  text-shadow: 2px 2px 3px black;
-  :hover {
-    margin-left: -2px;
-    font-weight: bold;
-  }
-`;
-
 const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [{ currentSubreddit, currentSubType }, setCurrentSubreddit] = useState({ currentSubreddit: null, currentSubType: null });
   const [{ prevSubreddit, prevSubType }, setPrevSubreddit] = useState({ prevSubreddit: null, prevSubType: null });
+
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
-  const [SavedFeed, setSavedFeed] = useState(null);
-  const { getSubRedditFeed, SortType, SortTimeFrame, searchType } = getData();
+  const { getSubRedditFeed, SortType, SortTimeFrame } = getData();
+
   const [currentSearchType, setCurrentSearchType] = useState(SortType.top);
   const [currentSortTime, setCurrentSortTime] = useState(SortTimeFrame.day);
+
   const [isLoading, setIsLoading] = useState(true);
   const [showNSFW, setShowNSFW] = useState(false);
 
   useEffect(() => {
-    console.log('useEffect');
+    console.log({ currentSubType });
     const fetch = async () => {
       try {
         const post = await (() => {
           return getSubRedditFeed(currentSubreddit, currentSearchType, currentSortTime, currentSubType);
         })();
         setPosts(post?.data);
-        setSavedFeed(() => {
-          return null;
-        });
         setSearchError('');
         setIsLoading(false);
       } catch (error) {
@@ -161,104 +68,8 @@ const Feed = () => {
     setCurrentSelectedPost({ currentSelectedPost: null, key: null });
   };
 
-  const PostBody = ({ post, hideWindow }) => {
-    return (
-      <div>
-        <FullPost post={post} hideWindow={(event) => hideWindow(event)} />
-      </div>
-    );
-  };
-
   const setCurrentSelectedPostAndKey = (post) => {
     setCurrentSelectedPost({ currentSelectedPost: post, key: window.pageYOffset });
-  };
-
-  const MainFeed = ({ post }) => {
-    return (
-      <Post>
-        <PostData>
-          <Box display="inline-flex" alignItems="start" flexDirection="column" w="100%">
-            {!currentSubreddit && (
-              <SubredditButton onClick={() => ChangeSubreddit(post.subreddit, null)}>
-                <Text wordBreak="none" fontSize="13px">
-                  r/{post.subreddit}
-                </Text>
-              </SubredditButton>
-            )}
-            <Box display="flex" flexDirection="row">
-              <UserButton>
-                <Text variant="user" onClick={() => ChangeSubreddit(post?.author, searchType.user)}>
-                  u/{post?.author}
-                </Text>
-              </UserButton>
-              <Text paddingLeft="5px" paddingRight="5px" variant="user">
-                •
-              </Text>
-              <TimeStamp msTime={post.created_utc} />
-            </Box>
-          </Box>
-
-          <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}></EmptyBox>
-        </PostData>
-
-        <Awardings awards={post.all_awardings} />
-        <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}>
-          <Text
-            w="100%"
-            padding="0px 15px 5px 15px"
-            textShadow="3px 3px 4px black"
-            onClick={() => setCurrentSelectedPostAndKey(post)}
-          >
-            {post.title}
-          </Text>
-
-          <Media post={post} onClick={() => setCurrentSelectedPostAndKey(post)} />
-        </EmptyBox>
-        <Box marginLeft="20px" marginTop="-7px" marginBottom="7px">
-          {post.image && <Link href={post.image} text={post.image} />}
-        </Box>
-      </Post>
-    );
-  };
-
-  const FeedMap = () => {
-    return (
-      <FeedContainer>
-        <SearchError>{searchError}</SearchError>
-        <TopNav>
-          <SortTypeDropdown
-            currentSearchType={currentSearchType}
-            setCurrentSortType={(type) => changeCurrentSortType(type)}
-            currentSortType={currentSearchType}
-            setCurrentSortTime={(value) => changeCurrentSortTime(value)}
-            currentSortTime={currentSortTime}
-          />
-
-          <NSFWToggleButton setShowNSFW={(bool) => setShowNSFW(bool)} isChecked={showNSFW} />
-        </TopNav>
-        {(() => {
-          if (!posts || !posts.length) {
-            return null;
-          } else {
-            return (
-              <div>
-                {posts.map((post, key) => {
-                  if (post.over_18 && !showNSFW) return null;
-                  return (
-                    <PostContainer key={key}>
-                      <div>
-                        <MainFeed post={post} />
-                      </div>
-                      <BottomBanner post={post} setCurrentSelectedPostAndKey={(value) => setCurrentSelectedPostAndKey(value)} />
-                    </PostContainer>
-                  );
-                })}
-              </div>
-            );
-          }
-        })()}
-      </FeedContainer>
-    );
   };
 
   if (!currentSelectedPost) {
@@ -273,7 +84,19 @@ const Feed = () => {
               userSettings={{ showNSFW: showNSFW }}
               handleSearch={(value) => ChangeSubreddit(value.value, value.SearchType)}
             />
-            <FeedMap />
+            <FeedMap
+              posts={posts}
+              searchError={searchError}
+              currentSearchType={currentSearchType}
+              changeCurrentSortType={(type) => changeCurrentSortType(type)}
+              changeCurrentSortTime={(value) => changeCurrentSortTime(value)}
+              currentSortTime={currentSortTime}
+              showNSFW={showNSFW}
+              setShowNSFW={(bool) => setShowNSFW(bool)}
+              currentSubreddit={currentSubreddit}
+              ChangeSubreddit={(value) => ChangeSubreddit(value.author, value.searchType)}
+              setCurrentSelectedPostAndKey={(value) => setCurrentSelectedPostAndKey(value)}
+            />
           </Container>
         </Box>
       );
@@ -281,12 +104,7 @@ const Feed = () => {
   } else if (currentSelectedPost) {
     return (
       <div>
-        <PostBody
-          post={currentSelectedPost}
-          hideWindow={() => {
-            setCurrentSelectedPost({ currentSelectedPost: null, key: key });
-          }}
-        />
+        <FullPost post={currentSelectedPost} hideWindow={() => setCurrentSelectedPost({ currentSelectedPost: null, key: key })} />
         {key && window.scrollTo(0, 0)}
       </div>
     );
