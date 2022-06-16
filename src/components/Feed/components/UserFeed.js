@@ -41,8 +41,7 @@ const UserButton = styled.button`
 `;
 
 const UserFeed = ({ post, userPage, ChangeSubreddit, setCurrentSelectedPostAndKey }) => {
-  const { searchType } = getData();
-  console.log({ userPage }, userPage.all_awardings);
+  //console.log({ userPage }, userPage.all_awardings);
   return (
     <Post>
       <PostData>
@@ -55,7 +54,7 @@ const UserFeed = ({ post, userPage, ChangeSubreddit, setCurrentSelectedPostAndKe
 
           <Box display="flex" flexDirection="row">
             <UserButton>
-              <Text variant="user">u/{post?.author}</Text>
+              <Text variant="user">u/{userPage?.author}</Text>
             </UserButton>
             <Text paddingLeft="5px" paddingRight="5px" variant="user">
               •

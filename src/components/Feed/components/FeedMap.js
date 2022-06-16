@@ -5,7 +5,6 @@ import BottomBanner from './../components/BottomBanner';
 import SortTypeDropdown from './../components/SortTypeDropdown';
 import styled from 'styled-components';
 import { getData } from '../../../Utils';
-import UserPage from './../../User/index';
 
 const PostContainer = styled.div`
   display: flex;
@@ -74,7 +73,9 @@ const FeedMap = ({
 }) => {
   const { subType } = getData();
   const feedType = posts?.feedType;
+  //console.log(posts);
   posts = posts?.data;
+
   return (
     <FeedContainer>
       <SearchError>{searchError}</SearchError>
