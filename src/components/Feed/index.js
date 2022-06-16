@@ -18,7 +18,7 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [{ currentSubreddit, currentSubType }, setCurrentSubreddit] = useState({ currentSubreddit: null, currentSubType: null });
   const [{ prevSubreddit, prevSubType }, setPrevSubreddit] = useState({ prevSubreddit: null, prevSubType: null });
-  console.log({ posts });
+
   const [searchError, setSearchError] = useState('');
   const [{ currentSelectedPost, key }, setCurrentSelectedPost] = useState({ currentSelectedPost: null, key: null });
   const { getSubRedditFeed, SortType, SortTimeFrame } = getData();
@@ -35,7 +35,7 @@ const Feed = () => {
         const post = await (() => {
           return getSubRedditFeed(currentSubreddit, currentSearchType, currentSortTime, currentSubType);
         })();
-        setPosts(post?.data);
+        setPosts(post);
         setSearchError('');
         setIsLoading(false);
       } catch (error) {

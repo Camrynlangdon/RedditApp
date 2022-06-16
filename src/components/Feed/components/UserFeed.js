@@ -40,24 +40,22 @@ const UserButton = styled.button`
   }
 `;
 
-const Feed = ({ post, currentSubreddit, ChangeSubreddit, setCurrentSelectedPostAndKey }) => {
+const UserFeed = ({ post, userPage, ChangeSubreddit, setCurrentSelectedPostAndKey }) => {
   const { searchType } = getData();
+  console.log({ userPage }, userPage.all_awardings);
   return (
     <Post>
       <PostData>
         <Box display="inline-flex" alignItems="start" flexDirection="column" w="100%">
-          {!currentSubreddit && (
-            <SubredditButton onClick={() => ChangeSubreddit({ subreddit: post.subreddit, searchType: null })}>
-              <Text wordBreak="none" fontSize="13px">
-                r/{post.subreddit}
-              </Text>
-            </SubredditButton>
-          )}
+          <SubredditButton onClick={() => ChangeSubreddit({ subreddit: post.subreddit, searchType: null })}>
+            <Text wordBreak="none" fontSize="13px">
+              r/{post.subreddit}
+            </Text>
+          </SubredditButton>
+
           <Box display="flex" flexDirection="row">
             <UserButton>
-              <Text variant="user" onClick={() => ChangeSubreddit({ author: post?.author, searchType: searchType.user })}>
-                u/{post?.author}
-              </Text>
+              <Text variant="user">u/{post?.author}</Text>
             </UserButton>
             <Text paddingLeft="5px" paddingRight="5px" variant="user">
               •
@@ -65,11 +63,10 @@ const Feed = ({ post, currentSubreddit, ChangeSubreddit, setCurrentSelectedPostA
             <TimeStamp msTime={post.created_utc} />
           </Box>
         </Box>
-
         <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}></EmptyBox>
       </PostData>
 
-      <Awardings awards={post.all_awardings} />
+      <Awardings awards={userPage.all_awardings} />
       <EmptyBox onClick={() => setCurrentSelectedPostAndKey(post)}>
         <Text
           w="100%"
@@ -77,10 +74,10 @@ const Feed = ({ post, currentSubreddit, ChangeSubreddit, setCurrentSelectedPostA
           textShadow="3px 3px 4px black"
           onClick={() => setCurrentSelectedPostAndKey(post)}
         >
-          {post.title}
+          {userPage.body}
         </Text>
 
-        <Media post={post} onClick={() => setCurrentSelectedPostAndKey(post)} />
+        {/* <Media post={post} onClick={() => setCurrentSelectedPostAndKey(post)} /> */}
       </EmptyBox>
       <Box marginLeft="20px" marginTop="-7px" marginBottom="7px">
         {post.image && <Link href={post.image} text={post.image} />}
@@ -89,4 +86,4 @@ const Feed = ({ post, currentSubreddit, ChangeSubreddit, setCurrentSelectedPostA
   );
 };
 
-export default Feed;
+export default UserFeed;
