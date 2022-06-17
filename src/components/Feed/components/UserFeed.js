@@ -41,7 +41,7 @@ const UserButton = styled.button`
 `;
 
 const UserFeed = ({ post, userPage, ChangeSubreddit, setCurrentSelectedPostAndKey }) => {
-  //console.log({ userPage }, userPage.all_awardings);
+  console.log(post.author, userPage.author);
   return (
     <Post>
       <PostData>
@@ -75,7 +75,11 @@ const UserFeed = ({ post, userPage, ChangeSubreddit, setCurrentSelectedPostAndKe
         >
           {userPage.body}
         </Text>
-
+        {(() => {
+          if (post.author === userPage.author) {
+            return <Media post={post} onClick={() => setCurrentSelectedPostAndKey(post)} />;
+          }
+        })()}
         {/* <Media post={post} onClick={() => setCurrentSelectedPostAndKey(post)} /> */}
       </EmptyBox>
       <Box marginLeft="20px" marginTop="-7px" marginBottom="7px">

@@ -18,13 +18,13 @@ const getData = () => {
       if (responseJson.error === 404 || responseJson.message === 'Not Found' || responseJson.error === 302) return;
       if (responseJson.data.children === null || responseJson.data.children === undefined) return null;
       const cleanedData = await Promise.all(
-        responseJson.data.children.map(async (child) => {
+        responseJson.data.children.map(async (child, i) => {
           if (currentSubType === searchType.user) {
-            const post = await getPostById(child.data.link_id);
+            const post = await getPostById(child.data?.link_id || child.data?.id);
             if (!post) return null;
             const postData = post.post;
             const comments = post.comments;
-            //console.log({ postData }, { comments }, child.data, { responseJson });
+            //console.log(i, { postData }, { comments }, child.data, { responseJson });
             return {
               title: postData.title,
               selftext: postData.selftext,
@@ -86,6 +86,7 @@ const getData = () => {
       const response = await fetch(`https://www.reddit.com/${id}/.json`);
       if (!response.ok) return;
       const responseJson = await response.json();
+
       return {
         post: responseJson[0].data.children[0].data,
         comments: responseJson[1].data.children,
