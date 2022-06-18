@@ -40,7 +40,7 @@ const UserButton = styled.button`
   }
 `;
 
-const Feed = ({ post, currentSubreddit, ChangeSubreddit, setCurrentSelectedPostAndKey }) => {
+const SubredditFeed = ({ post, currentSubreddit, ChangeSubreddit, setCurrentSelectedPostAndKey }) => {
   const { searchType } = getData();
   return (
     <Post>
@@ -89,4 +89,4 @@ const Feed = ({ post, currentSubreddit, ChangeSubreddit, setCurrentSelectedPostA
   );
 };
 
-export default Feed;
+export default SubredditFeed;
