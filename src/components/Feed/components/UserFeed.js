@@ -41,7 +41,7 @@ const UserButton = styled.button`
 `;
 
 const UserFeed = ({ post, userPage, ChangeSubreddit, setCurrentSelectedPostAndKey }) => {
-  console.log(post.author, userPage.author);
+  //console.log(post.author, userPage.author);
   return (
     <Post>
       <PostData>
