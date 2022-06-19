@@ -24,13 +24,13 @@ const getData = () => {
             if (!post) return null;
             const postData = post.post;
             const comments = post.comments;
-            //console.log(i, { postData }, { comments }, child.data, { responseJson });
+            console.log({ postData });
             return {
               title: postData.title,
               selftext: postData.selftext,
               author: postData.author,
               url: `https://www.reddit.com/${postData.permalink}`,
-              image: postData.url,
+              image: getImages(postData.media_metadata) || postData.url,
               score: postData.score,
               comments: comments,
               num_comments: postData.num_comments,
@@ -43,13 +43,14 @@ const getData = () => {
             };
           } else {
             const postData = child.data;
+            //console.log({ postData });
             const url = `https://www.reddit.com/${postData.permalink}`;
             return {
               title: postData.title,
               selftext: postData.selftext,
               author: postData.author,
               url: url,
-              image: postData.url,
+              image: getImages(postData.media_metadata) || postData.url,
               score: postData.score,
               comments: await getPostComments(url),
               num_comments: postData.num_comments,
@@ -75,6 +76,15 @@ const getData = () => {
         error: 'no results found!',
       };
     }
+  };
+
+  const getImages = (images) => {
+    if (!images) return null;
+    if (images.length === 1) return images;
+    let imageCollection = Object.keys(images).map((image) => {
+      return `https://i.redd.it/${image}.png`;
+    });
+    return imageCollection;
   };
 
   const getPostById = async (id) => {
