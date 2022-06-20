@@ -10,6 +10,17 @@ const Video = styled.video``;
 
 const isImage = (image) => {
   if (image === undefined) return false;
+
+  let isImages = true;
+  if (Array.isArray(image)) {
+    image.map((img) => {
+      if (!isImage(img)) {
+        isImages = false;
+      }
+    });
+    console.log(isImages);
+    if (isImages) return true;
+  }
   if (
     image.slice(-3) === 'jpg' ||
     image.slice(-3) === 'jpeg' ||
@@ -37,7 +48,20 @@ const Image = ({ post }) => {
       }
     }
   `;
-  return <ImageContainer>{isImage(post.image) && <ImageStyle src={post.image} alt={post.title} />}</ImageContainer>;
+  //console.log({ post });
+  if (!Array.isArray(post.image)) {
+    return <ImageContainer>{isImage(post.image) && <ImageStyle src={post.image} alt={post.title} />}</ImageContainer>;
+  }
+  //console.log(post, Object.keys(post.image));
+
+  return (
+    <div>
+      {post.image.map((image, i) => {
+        //console.log(image);
+        return <ImageContainer key={i}>{isImage(image) && <ImageStyle src={image} alt={post.title} />}</ImageContainer>;
+      })}
+    </div>
+  );
 };
 
 const RedditVideo = ({ post }) => {
@@ -93,7 +117,8 @@ const YouTube = ({ post }) => {
 };
 
 const Media = ({ post }) => {
-  console.log({ post });
+  //console.log({ post });
+
   if (post.image) {
     if (isImage(post.image)) {
       return <Image post={post} />;

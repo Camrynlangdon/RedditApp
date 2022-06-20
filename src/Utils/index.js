@@ -24,7 +24,7 @@ const getData = () => {
             if (!post) return null;
             const postData = post.post;
             const comments = post.comments;
-            console.log({ postData });
+            //console.log({ postData });
             return {
               title: postData.title,
               selftext: postData.selftext,
