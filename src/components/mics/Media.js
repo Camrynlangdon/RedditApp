@@ -18,7 +18,6 @@ const isImage = (image) => {
         isImages = false;
       }
     });
-    console.log(isImages);
     if (isImages) return true;
   }
   if (
@@ -48,18 +47,18 @@ const Image = ({ post }) => {
       }
     }
   `;
-  //console.log({ post });
   if (!Array.isArray(post.image)) {
     return <ImageContainer>{isImage(post.image) && <ImageStyle src={post.image} alt={post.title} />}</ImageContainer>;
   }
-  //console.log(post, Object.keys(post.image));
 
   return (
     <div>
-      {post.image.map((image, i) => {
-        //console.log(image);
+      {/* {post.image.map((image, i) => {
         return <ImageContainer key={i}>{isImage(image) && <ImageStyle src={image} alt={post.title} />}</ImageContainer>;
-      })}
+      })} */}
+      <div>
+        <ImageContainer>{isImage(post.image) && <ImageStyle src={post.image[0]} alt={post.title} />}</ImageContainer>
+      </div>
     </div>
   );
 };
