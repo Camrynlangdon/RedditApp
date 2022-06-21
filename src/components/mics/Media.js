@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ImageContainer = styled.div`
   display: flex;
@@ -54,20 +52,9 @@ const Image = ({ post }) => {
       }
     }
   `;
-
   const MainContainer = styled.div`
     position: relative;
     height: 100%;
-  `;
-
-  const LeftButton = styled.button`
-    position: absolute;
-  `;
-
-  const RightButton = styled.button`
-    position: absolute;
-    top: 50%;
-    right: 0px;
   `;
 
   if (!Array.isArray(post.image)) {
@@ -76,14 +63,7 @@ const Image = ({ post }) => {
 
   return (
     <MainContainer>
-      <LeftButton>
-        <FontAwesomeIcon icon={faCaretLeft} size={'3x'} color={'white'} />
-      </LeftButton>
-
       <ImageContainer>{isImage(post.image) && <ImageStyle src={post.image[imageIndex]} alt={post.title} />}</ImageContainer>
-      <RightButton>
-        <FontAwesomeIcon icon={faCaretRight} size={'3x'} color={'white'} />
-      </RightButton>
     </MainContainer>
   );
 };
