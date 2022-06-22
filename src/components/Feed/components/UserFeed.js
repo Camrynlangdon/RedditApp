@@ -41,7 +41,7 @@ const UserButton = styled.button`
 `;
 
 const UserFeed = ({ post, userPage, ChangeSubreddit, setCurrentSelectedPostAndKey }) => {
-  //console.log(post.author, userPage.author);
+  //console.log({ post }, { userPage });
   return (
     <Post>
       <PostData>
@@ -73,10 +73,10 @@ const UserFeed = ({ post, userPage, ChangeSubreddit, setCurrentSelectedPostAndKe
           textShadow="3px 3px 4px black"
           onClick={() => setCurrentSelectedPostAndKey(post)}
         >
-          {userPage.body}
+          {userPage.body || post.title}
         </Text>
         {(() => {
-          if (post.author === userPage.author) {
+          if (post.author === userPage.author && post.title === userPage.title) {
             return <Media post={post} onClick={() => setCurrentSelectedPostAndKey(post)} />;
           }
         })()}

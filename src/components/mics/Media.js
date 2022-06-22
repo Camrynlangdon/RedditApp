@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 
 const ImageContainer = styled.div`
   display: flex;
@@ -10,6 +11,18 @@ const Video = styled.video``;
 
 const isImage = (image) => {
   if (image === undefined) return false;
+
+  let isImages = true;
+  if (Array.isArray(image)) {
+    image.map((img) => {
+      if (!isImage(img)) {
+        isImages = false;
+        return false;
+      }
+      return null;
+    });
+    if (isImages) return true;
+  }
   if (
     image.slice(-3) === 'jpg' ||
     image.slice(-3) === 'jpeg' ||
@@ -22,6 +35,8 @@ const isImage = (image) => {
 };
 
 const Image = ({ post }) => {
+  const [imageIndex, setImageIndex] = useState(0);
+
   const ImageStyle = styled.img`
     border-radius: 2px;
 
@@ -37,7 +52,20 @@ const Image = ({ post }) => {
       }
     }
   `;
-  return <ImageContainer>{isImage(post.image) && <ImageStyle src={post.image} alt={post.title} />}</ImageContainer>;
+  const MainContainer = styled.div`
+    position: relative;
+    height: 100%;
+  `;
+
+  if (!Array.isArray(post.image)) {
+    return <ImageContainer>{isImage(post.image) && <ImageStyle src={post.image} alt={post.title} />}</ImageContainer>;
+  }
+
+  return (
+    <MainContainer>
+      <ImageContainer>{isImage(post.image) && <ImageStyle src={post.image[imageIndex]} alt={post.title} />}</ImageContainer>
+    </MainContainer>
+  );
 };
 
 const RedditVideo = ({ post }) => {
@@ -93,6 +121,8 @@ const YouTube = ({ post }) => {
 };
 
 const Media = ({ post }) => {
+  //console.log({ post });
+
   if (post.image) {
     if (isImage(post.image)) {
       return <Image post={post} />;
