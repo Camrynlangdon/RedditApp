@@ -139,7 +139,6 @@ const SearchBar = ({ handleSearch, userSettings }) => {
 
   const select = (value, SearchType) => {
     if (value !== null && value !== undefined) {
-      console.log(value, SearchType);
       handleSearch({ value, SearchType });
     }
     setExpanded(false);
