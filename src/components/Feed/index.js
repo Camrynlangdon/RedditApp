@@ -49,6 +49,7 @@ const Feed = () => {
   }, [currentSubreddit, currentSearchType, showNSFW, currentSortTime]);
 
   const ChangeSubreddit = (subreddit, SearchType) => {
+    console.log('test', { subreddit });
     setIsLoading(true);
     setPrevSubreddit({ prevSubreddit: currentSubreddit, prevSubType: currentSubType });
     setCurrentSubreddit({ currentSubreddit: subreddit, currentSubType: SearchType });

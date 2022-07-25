@@ -139,7 +139,6 @@ const SearchBar = ({ handleSearch, userSettings }) => {
 
   const select = (value, SearchType) => {
     if (value !== null && value !== undefined) {
-      console.log(value, SearchType);
       handleSearch({ value, SearchType });
     }
     setExpanded(false);
@@ -203,7 +202,7 @@ const SearchBar = ({ handleSearch, userSettings }) => {
           if (searchValue && expanded) {
             return (
               <SearchBaDropdown onBlur={() => setExpanded(false)}>
-                <Button value={searchValue} onClick={(event) => handleSearch(event.target.value, null)}>
+                <Button value={searchValue} onClick={(event) => handleSearch(searchValue, null)}>
                   <FontAwesomeIcon
                     icon={faSearch}
                     color="white"
