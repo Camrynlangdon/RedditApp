@@ -2,6 +2,7 @@ const getData = () => {
   const getSubRedditFeed = async (name, SortType, currentSortTime, currentSubType) => {
     let response;
     let feedType;
+    console.log({ name, SortType, currentSortTime, currentSubType });
     try {
       if (currentSubType === searchType.user) {
         feedType = subType.user;
